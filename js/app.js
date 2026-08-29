@@ -827,7 +827,7 @@ function initQuantTabNav() {
 }
 
 /* --------------------------------------------------------------------------
-   CONTACT FORM SUBMISSION & QUALIFICATION
+   CONTACT FORM SUBMISSION & QUALIFICATION (TRANSMISSION RÉELLE EMAIL)
    -------------------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('consulting-contact-form');
@@ -835,7 +835,7 @@ function initContactForm() {
 
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
@@ -845,39 +845,82 @@ function initContactForm() {
       email: document.getElementById('contact-email')?.value || '',
       phone: document.getElementById('contact-phone')?.value || '',
       company: document.getElementById('contact-inst')?.value || '',
+      sector: document.getElementById('contact-sector')?.value || '',
       type: document.getElementById('contact-type')?.value || '',
       need: document.getElementById('contact-pole-select')?.value || '',
-      sector: document.getElementById('contact-sector')?.value || '',
-      messageLength: document.getElementById('contact-message')?.value?.length || 0
+      message: document.getElementById('contact-message')?.value || '',
+      website_url_hp: document.getElementById('website_url_hp')?.value || ''
     };
 
     if (window.NexusAnalytics) {
-      window.NexusAnalytics.trackEvent('formulaire_contact_envoye', contactData);
+      window.NexusAnalytics.trackEvent('formulaire_contact_envoye', {
+        name: contactData.name,
+        company: contactData.company,
+        sector: contactData.sector,
+        need: contactData.need
+      });
     }
 
     btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Transmission en cours...`;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Envoi à l'administration en cours...`;
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('send_mail.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(contactData)
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (response.ok && result.success) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Message transmis avec succès !`;
+        btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        btn.style.color = '#ffffff';
+
+        // Show toast confirmation
+        if (toast) {
+          toast.textContent = result.message || 'Votre message a été transmis avec succès à administration@nexusalphaconsulting.com.';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 6000);
+        }
+
+        form.reset();
+
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.style.background = '';
+          btn.style.color = '';
+        }, 5000);
+      } else {
+        throw new Error(result.error || 'Erreur serveur lors de la transmission.');
+      }
+    } catch (err) {
+      console.warn('Erreur envoi send_mail.php:', err);
       btn.disabled = false;
-      btn.innerHTML = `<i class="fas fa-check"></i> Demande transmise avec succès !`;
-      btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+      btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> Erreur d'envoi`;
+      btn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
       btn.style.color = '#ffffff';
 
-      // Show toast
+      const errorMsg = err.message || 'Une erreur est survenue lors de l\'envoi du message.';
       if (toast) {
+        toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errorMsg}<br><a href="mailto:administration@nexusalphaconsulting.com?subject=Contact%20depuis%20site%20Nexus%20Alpha&body=${encodeURIComponent(contactData.message)}" style="color:#d5bb76;text-decoration:underline;">Cliquez ici pour envoyer directement par email</a>`;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 5000);
+        setTimeout(() => toast.classList.remove('show'), 8000);
+      } else {
+        alert(errorMsg + '\n\nVous pouvez nous écrire directement à : administration@nexusalphaconsulting.com');
       }
-
-      form.reset();
 
       setTimeout(() => {
         btn.innerHTML = originalText;
         btn.style.background = '';
         btn.style.color = '';
-      }, 4000);
-    }, 1200);
+      }, 5000);
+    }
   });
 }
 
