@@ -488,6 +488,34 @@ const POLES_DATA = {
 };
 
 /* --------------------------------------------------------------------------
+   ANALYTICS & CRO TRACKING MODULE
+   -------------------------------------------------------------------------- */
+window.NexusAnalytics = {
+  trackEvent: function(eventName, eventParams = {}) {
+    const timestamp = new Date().toISOString();
+    const eventPayload = {
+      event: eventName,
+      timestamp: timestamp,
+      ...eventParams
+    };
+
+    // 1. Console Log in development/audit mode
+    console.log(`%c[NEXUS ANALYTICS]%c ${eventName}`, 'background: #d5bb76; color: #070d18; font-weight: bold; padding: 2px 6px; border-radius: 3px;', 'color: #38bdf8; font-weight: bold;', eventPayload);
+
+    // 2. Dispatch custom DOM event
+    window.dispatchEvent(new CustomEvent('nexus_track', { detail: eventPayload }));
+
+    // 3. Google Analytics / DataLayer Bridge if present
+    if (window.dataLayer && Array.isArray(window.dataLayer)) {
+      window.dataLayer.push(eventPayload);
+    }
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, eventParams);
+    }
+  }
+};
+
+/* --------------------------------------------------------------------------
    INITIALIZATION
    -------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
@@ -500,6 +528,14 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuantTabNav();
   initContactForm();
   initBackToTop();
+  initStickyMobileCTA();
+  initNeedSelectCTAs();
+  
+  // Track landing view
+  window.NexusAnalytics.trackEvent('visite_page_accueil', {
+    url: window.location.href,
+    referrer: document.referrer
+  });
 });
 
 /* --------------------------------------------------------------------------
@@ -622,9 +658,16 @@ function initPoleModals() {
     if (modalCtaBtn) {
       modalCtaBtn.setAttribute('href', `#contact`);
       modalCtaBtn.onclick = () => {
+        if (window.NexusAnalytics) {
+          window.NexusAnalytics.trackEvent('clic_pole_modal_cta', { poleId: data.id, poleTitle: data.title });
+        }
         closePoleModal();
         const poleSelect = document.getElementById('contact-pole-select');
         if (poleSelect) poleSelect.value = data.id;
+        const msgElem = document.getElementById('contact-message');
+        if (msgElem && (!msgElem.value || msgElem.value.indexOf('Pôle') !== -1)) {
+          msgElem.value = `Bonjour, suite à la consultation de la fiche détaillée ${data.number} (${data.title}), je souhaite échanger avec un expert associé de Nexus Alpha Consulting sur les modalités d'une mission d'accompagnement.`;
+        }
       };
     }
 
@@ -769,7 +812,7 @@ function initQuantTabNav() {
 }
 
 /* --------------------------------------------------------------------------
-   CONTACT FORM SUBMISSION SIMULATION
+   CONTACT FORM SUBMISSION & QUALIFICATION
    -------------------------------------------------------------------------- */
 function initContactForm() {
   const form = document.getElementById('consulting-contact-form');
@@ -781,6 +824,21 @@ function initContactForm() {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
+
+    const contactData = {
+      name: document.getElementById('contact-name')?.value || '',
+      email: document.getElementById('contact-email')?.value || '',
+      phone: document.getElementById('contact-phone')?.value || '',
+      company: document.getElementById('contact-inst')?.value || '',
+      type: document.getElementById('contact-type')?.value || '',
+      need: document.getElementById('contact-pole-select')?.value || '',
+      sector: document.getElementById('contact-sector')?.value || '',
+      messageLength: document.getElementById('contact-message')?.value?.length || 0
+    };
+
+    if (window.NexusAnalytics) {
+      window.NexusAnalytics.trackEvent('formulaire_contact_envoye', contactData);
+    }
 
     btn.disabled = true;
     btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Transmission en cours...`;
@@ -809,6 +867,64 @@ function initContactForm() {
 }
 
 /* --------------------------------------------------------------------------
+   NEED-SELECT CTAS (PRE-SELECT FORM DROPDOWN & CONTEXT)
+   -------------------------------------------------------------------------- */
+function initNeedSelectCTAs() {
+  document.querySelectorAll('[data-select-need]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const needValue = btn.dataset.selectNeed;
+      const needContext = btn.dataset.needContext || '';
+      const eventName = btn.dataset.analyticsEvent || 'clic_cta_commercial';
+
+      if (window.NexusAnalytics) {
+        window.NexusAnalytics.trackEvent(eventName, { need: needValue, context: needContext });
+      }
+
+      const selectElem = document.getElementById('contact-pole-select');
+      if (selectElem && needValue) {
+        selectElem.value = needValue;
+      }
+
+      if (needContext) {
+        const msgElem = document.getElementById('contact-message');
+        if (msgElem && (!msgElem.value || msgElem.value.length < 20)) {
+          msgElem.value = needContext;
+        }
+      }
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   STICKY MOBILE CTA BAR
+   -------------------------------------------------------------------------- */
+function initStickyMobileCTA() {
+  const stickyBar = document.getElementById('mobile-sticky-cta');
+  if (!stickyBar) return;
+
+  window.addEventListener('scroll', () => {
+    // Show sticky CTA after scrolling past hero (350px) and hide near contact section
+    const contactSec = document.getElementById('contact');
+    const contactTop = contactSec ? contactSec.offsetTop - 500 : 999999;
+    
+    if (window.scrollY > 350 && window.scrollY < contactTop) {
+      stickyBar.classList.add('visible');
+    } else {
+      stickyBar.classList.remove('visible');
+    }
+  });
+
+  const stickyBtn = stickyBar.querySelector('a');
+  if (stickyBtn) {
+    stickyBtn.addEventListener('click', () => {
+      if (window.NexusAnalytics) {
+        window.NexusAnalytics.trackEvent('clic_sticky_mobile_cta');
+      }
+    });
+  }
+}
+
+/* --------------------------------------------------------------------------
    BACK TO TOP BUTTON
    -------------------------------------------------------------------------- */
 function initBackToTop() {
@@ -827,3 +943,4 @@ function initBackToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
+
