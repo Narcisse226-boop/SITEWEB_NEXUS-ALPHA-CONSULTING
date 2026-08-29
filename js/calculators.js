@@ -252,6 +252,8 @@ function initMaturityQuiz() {
 
 /* --------------------------------------------------------------------------
    4. AUTODIAGNOSTIC NEXUS PME 360™ (NEXUS PRE-SCORE™ & MINI-DIAGNOSTIC)
+/* --------------------------------------------------------------------------
+   4. AUTODIAGNOSTIC NEXUS PME 360™ (NEXUS PRE-SCORE™ & MINI-DIAGNOSTIC SECTORISÉ)
    -------------------------------------------------------------------------- */
 function initPMEQuiz() {
   const pmeForm = document.getElementById('pme-quiz-form');
@@ -260,8 +262,43 @@ function initPMEQuiz() {
   const pmeScoreText = document.getElementById('pme-score-text');
   const pmeBadge = document.getElementById('pme-maturity-badge');
   const pmeRecommendations = document.getElementById('pme-recommendations');
+  const sectorCards = document.querySelectorAll('.sector-picker-card');
 
   if (!pmeForm) return;
+
+  // Sector Data Definition
+  const SECTOR_INFO = {
+    'agro-industrie': {
+      name: '🌾 Agro-industrie & Transformation',
+      challenges: 'BFR de campagne, stocks agricoles saisonniers, approvisionnement matières, facture énergétique usine et financement de collecte.',
+      priorities: 'Structurer un plan de trésorerie sur la saison d\'achat, maîtriser les coûts de détention des stocks périssables et calibrer un dossier de crédit de campagne bancable.'
+    },
+    'industrie': {
+      name: '🏭 Industrie & PMI',
+      challenges: 'Coûts de production réels, marges unitaires, capacité productive, investissements machines, énergie et trésorerie d\'exploitation.',
+      priorities: 'Mettre en place un calcul de rentabilité analytique par ligne de produit, auditer la facture énergétique (solution solaire/hybride) et optimiser la rotation des matières premières.'
+    },
+    'btp': {
+      name: '🏗️ BTP & Construction',
+      challenges: 'BFR par chantier, créances clients et délais de paiement, gestion des avances de démarrage, suivi des marchés et rentabilité des contrats.',
+      priorities: 'Piloter la trésorerie affaire par affaire, accélérer le recouvrement des décomptes certifiés et structurer les demandes de cautions et avances bancaires.'
+    },
+    'commerce': {
+      name: '📦 Commerce & Distribution',
+      challenges: 'Rotation des stocks, marges réelles par rayon, délais de règlement fournisseurs, créances clients et trésorerie d\'exploitation.',
+      priorities: 'Optimiser le cycle de rotation des stocks, renégocier les délais fournisseurs pour alléger le BFR et éliminer les références de produits destructrices de marge.'
+    },
+    'services': {
+      name: '💼 Services & Conseil',
+      challenges: 'Structure de charges fixes, rentabilité par mission, productivité des équipes, trésorerie et récurrence du chiffre d\'affaires.',
+      priorities: 'Développer des offres en abonnement récurrent pour stabiliser les flux, surveiller le taux de marge nette par client et automatiser le reporting de gestion.'
+    },
+    'autre': {
+      name: '🏢 Autre secteur d\'activité',
+      challenges: 'Maîtrise de la trésorerie à 13 semaines, fiabilisation des indicateurs de gestion et structuration financière.',
+      priorities: 'Conduire un diagnostic 360 complet pour identifier les vulnérabilités propres à votre modèle d\'affaires et préparer vos dossiers bancaires.'
+    }
+  };
 
   const QUESTION_MAP = {
     pme_q1: {
@@ -292,7 +329,7 @@ function initPMEQuiz() {
     pme_q6: {
       topic: "Bancarisation & Dossier de financement",
       strength: "Dossier financier structuré et prêt pour solliciter des financements",
-      vigilance: "Dossier financier non bancable (délais excessifs ou refus de financement)"
+      vigilance: "Dossier financier non bancable (délais excessifs ou refus de financement bancaire)"
     },
     pme_q7: {
       topic: "Création de valeur clients/marchés",
@@ -306,21 +343,65 @@ function initPMEQuiz() {
     },
     pme_q9: {
       topic: "Coûts énergétiques & Rentabilité",
-      strength: "Mesure de l'impact des coûts énergétiques et arbitrage solaire/hybride",
+      strength: "Mesure de l'impact des coûts énergétiques et arbitrage des investissements",
       vigilance: "Facture énergétique subie sans analyse de rentabilité des alternatives"
     }
   };
 
-  pmeForm.addEventListener('change', calculatePMEScore);
+  // Handle Sector Picker Selection
+  sectorCards.forEach(card => {
+    card.addEventListener('click', () => {
+      sectorCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      const radio = card.querySelector('input[type="radio"]');
+      if (radio) {
+        radio.checked = true;
+        const selectedSector = radio.value;
+        if (window.NexusAnalytics) {
+          window.NexusAnalytics.trackEvent('sector_selected', { sector: selectedSector });
+        }
+      }
+    });
+  });
+
+  // Global helper to select sector programmatically from external CTAs
+  window.selectPMESector = function(sectorKey) {
+    const card = document.querySelector(`.sector-picker-card input[value="${sectorKey}"]`);
+    if (card) {
+      const parent = card.closest('.sector-picker-card');
+      if (parent) {
+        sectorCards.forEach(c => c.classList.remove('selected'));
+        parent.classList.add('selected');
+        card.checked = true;
+      }
+    }
+  };
+
+  pmeForm.addEventListener('change', (e) => {
+    // When any radio changes in questions
+    if (e.target.name && e.target.name.startsWith('pme_q')) {
+      checkAndComputePMEScore(false);
+    }
+  });
+
+  pmeForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    checkAndComputePMEScore(true);
+  });
 
   let hasStarted = false;
 
-  function calculatePMEScore() {
+  function checkAndComputePMEScore(isSubmit = false) {
     const questions = Object.keys(QUESTION_MAP);
     let yesCount = 0;
     let answered = 0;
     const strengths = [];
     const vigilances = [];
+
+    // Check selected sector
+    const sectorRadio = pmeForm.querySelector('input[name="pme_sector"]:checked');
+    const selectedSectorKey = sectorRadio ? sectorRadio.value : 'agro-industrie';
+    const sectorData = SECTOR_INFO[selectedSectorKey] || SECTOR_INFO['agro-industrie'];
 
     questions.forEach(qName => {
       const selected = pmeForm.querySelector(`input[name="${qName}"]:checked`);
@@ -335,63 +416,143 @@ function initPMEQuiz() {
       }
     });
 
-    if (answered === 1 && !hasStarted) {
+    if (answered >= 1 && !hasStarted) {
       hasStarted = true;
       if (window.NexusAnalytics) {
-        window.NexusAnalytics.trackEvent('demarrage_questionnaire_pme');
+        window.NexusAnalytics.trackEvent('prediagnostic_start', { sector: selectedSectorKey });
       }
     }
 
     if (answered < 9) {
       if (pmeScoreText) pmeScoreText.textContent = `${answered}/9 questions répondues...`;
+      if (isSubmit) {
+        alert('Veuillez répondre aux 9 questions du pré-diagnostic pour générer votre score.');
+      }
       return;
     }
 
+    // Lead data collection
+    const leadName = document.getElementById('pme_lead_name')?.value || '';
+    const leadCompany = document.getElementById('pme_lead_company')?.value || '';
+    const leadPhone = document.getElementById('pme_lead_phone')?.value || '';
+    const leadEmail = document.getElementById('pme_lead_email')?.value || '';
+
     // Score out of 100
     const pmeScore = Math.round((yesCount / 9) * 100);
-    pmeScoreBar.style.width = pmeScore + '%';
-    pmeScoreText.textContent = `${pmeScore} / 100 (${yesCount}/9 indicateurs maîtrisés)`;
 
+    // Official Scale Grille
+    // 80–100 : 🟢 Solide
+    // 70–79 : 🟡 À renforcer
+    // 50–69 : 🟠 Structuration nécessaire
+    // <50 : 🔴 Mise à niveau prioritaire
     let pmeLevel = '';
     let badgeClass = '';
     let barColor = '';
     let summaryAction = '';
 
-    if (pmeScore <= 44) {
-      pmeLevel = '🔴 NIVEAU : VULNÉRABLE / ACTION URGENTE';
-      badgeClass = 'badge-rose';
-      barColor = '#f43f5e';
-      summaryAction = "Votre entreprise présente des vulnérabilités critiques immédiates sur le cash et le pilotage. Une structuration d'urgence s'impose avant tout nouvel investissement.";
-    } else if (pmeScore <= 77) {
-      pmeLevel = '🟠 NIVEAU : À RENFORCER / EN STRUCTURATION';
-      badgeClass = 'badge-gold';
-      barColor = '#d5bb76';
-      summaryAction = "Votre PME possède des atouts solides mais présente des angles morts clés (trésorerie, BFR ou dossier bancaire) qui freinent votre accès au financement.";
-    } else {
-      pmeLevel = '🟢 NIVEAU : ROBUSTE / PRÊT POUR L\'ACCÉLÉRATION';
+    if (pmeScore >= 80) {
+      pmeLevel = '🟢 SOLIDE (' + pmeScore + '/100)';
       badgeClass = 'badge-emerald';
       barColor = '#10b981';
-      summaryAction = "Excellente maturité ! Votre gouvernance financière est saine. Vous êtes en position favorable pour lever des fonds et accélérer votre croissance.";
+      summaryAction = "Excellente maturité globale ! Votre gestion et votre gouvernance financière sont saines. Vous disposez d'atouts solides pour solliciter des financements de croissance et optimiser vos marges.";
+    } else if (pmeScore >= 70) {
+      pmeLevel = '🟡 À RENFORCER (' + pmeScore + '/100)';
+      badgeClass = 'badge-gold';
+      barColor = '#f59e0b';
+      summaryAction = "Bases financières saines mais certains piliers (visibilité de trésorerie, BFR ou dossier bancaire) nécessitent un renforcement pour sécuriser votre développement sans tension.";
+    } else if (pmeScore >= 50) {
+      pmeLevel = '🟠 STRUCTURATION NÉCESSAIRE (' + pmeScore + '/100)';
+      badgeClass = 'badge-gold';
+      barColor = '#f97316';
+      summaryAction = "Votre PME présente des fragilités notables de structuration. Un audit financier approfondi est indispensable pour corriger vos points de fuite de cash avant d'envisager une nouvelle phase d'expansion.";
+    } else {
+      pmeLevel = '🔴 MISE À NIVEAU PRIORITAIRE (' + pmeScore + '/100)';
+      badgeClass = 'badge-rose';
+      barColor = '#f43f5e';
+      summaryAction = "Vulnérabilités critiques immédiates identifiées sur le pilotage du cash, le BFR et la rentabilité. Une mise à niveau financière d'urgence s'impose pour éviter tout risque d'impasse.";
     }
 
-    pmeScoreBar.style.background = barColor;
-    pmeBadge.textContent = pmeLevel;
-    pmeBadge.className = `badge ${badgeClass}`;
+    if (pmeScoreBar) {
+      pmeScoreBar.style.width = pmeScore + '%';
+      pmeScoreBar.style.background = barColor;
+    }
+    if (pmeScoreText) {
+      pmeScoreText.textContent = `${pmeScore} / 100`;
+    }
+    if (pmeBadge) {
+      pmeBadge.textContent = pmeLevel;
+      pmeBadge.className = `badge ${badgeClass}`;
+    }
+
+    // Save lead & score to storage / session for commercial follow-up
+    const qualificationLead = {
+      name: leadName,
+      company: leadCompany,
+      phone: leadPhone,
+      email: leadEmail,
+      sector: selectedSectorKey,
+      sectorName: sectorData.name,
+      score: pmeScore,
+      level: pmeLevel,
+      date: new Date().toISOString(),
+      strengths: strengths,
+      vigilances: vigilances
+    };
+
+    try {
+      localStorage.setItem('nexus_last_pme_prescore', JSON.stringify(qualificationLead));
+    } catch(e) {}
+
+    // Track analytics events
+    if (window.NexusAnalytics) {
+      window.NexusAnalytics.trackEvent('prediagnostic_complete', {
+        sector: selectedSectorKey,
+        score: pmeScore,
+        level: pmeLevel
+      });
+      window.NexusAnalytics.trackEvent('prescore_view', {
+        score: pmeScore,
+        strengthsCount: strengths.length,
+        vigilanceCount: vigilances.length
+      });
+    }
 
     // Build dynamic points forts & points de vigilance HTML
     const strengthsHTML = strengths.length > 0
       ? strengths.map(s => `<li>${s}</li>`).join('')
-      : `<li>Aucun point fort critique validé parmi les 9 critères.</li>`;
+      : `<li>Aucun point fort critique déclaré parmi les 9 indicateurs clés.</li>`;
 
     const vigilanceHTML = vigilances.length > 0
       ? vigilances.map(v => `<li>${v}</li>`).join('')
-      : `<li>Tous les 9 indicateurs fondamentaux sont validés.</li>`;
+      : `<li>Félicitations, l'ensemble des 9 critères fondamentaux ont été validés positivement.</li>`;
 
     const recoHTML = `
       <div class="pme-diag-results-pane animate-fade-up">
+        
+        <div class="pme-diag-score-header">
+          <div>
+            <span style="font-size: 0.82rem; text-transform: uppercase; color: var(--color-gold-light); font-weight: 700; letter-spacing: 0.05em;">
+              Votre Nexus Pre-Score™ — Diagnostic Commercial Express
+            </span>
+            <h4 style="font-family: var(--font-heading); font-size: 1.65rem; color: #ffffff; margin-top: 0.25rem;">
+              ${pmeScore} / 100 &nbsp;·&nbsp; <span style="font-size: 1.15rem; color: ${barColor};">${pmeLevel}</span>
+            </h4>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge badge-gold" style="font-size: 0.85rem;">Secteur : ${sectorData.name}</span>
+          </div>
+        </div>
+
         <p style="font-size: 0.95rem; color: #ffffff; line-height: 1.6; margin-bottom: 1.25rem;">
-          <strong>Synthèse de votre pré-évaluation :</strong> ${summaryAction}
+          <strong>Synthèse exécutive :</strong> ${summaryAction}
         </p>
+
+        <!-- Sector Insights Box -->
+        <div class="sector-insight-box">
+          <h6><i class="fas fa-bullseye" style="color: var(--color-gold-primary);"></i> Éclairage Spécifique : ${sectorData.name}</h6>
+          <p><strong>Enjeux majeurs de votre secteur :</strong> ${sectorData.challenges}</p>
+          <p style="margin-top: 0.35rem;"><strong>Priorité stratégique Nexus :</strong> ${sectorData.priorities}</p>
+        </div>
 
         <div class="pme-points-grid">
           <div class="pme-points-box strengths">
@@ -409,52 +570,99 @@ function initPMEQuiz() {
           </div>
         </div>
 
-        <!-- Prudentiel Disclaimer -->
-        <div class="pme-disclaimer-box">
-          <i class="fas fa-shield-alt" style="font-size: 1.25rem; color: #f59e0b; flex-shrink: 0; margin-top: 0.1rem;"></i>
-          <div>
-            <strong>Avertissement méthodologique :</strong> Ce pré-score constitue un premier outil de diagnostic et de préparation. Il ne remplace pas l'analyse approfondie de vos états financiers réels (bilan, compte de résultat, balance générale), ne constitue pas une notation de crédit bancaire et ne garantit pas l'obtention d'un financement.
+        <!-- Distinction Explanation Grid -->
+        <div class="pme-distinction-grid">
+          <div class="pme-distinction-col">
+            <h6 style="color: var(--text-secondary);"><i class="fas fa-tasks"></i> Pré-diagnostic Réalisé</h6>
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.45;">
+              Évaluation déclarative rapide sans états financiers. Idéal pour une première prise de conscience de vos fragilités et de votre niveau de préparation.
+            </p>
+          </div>
+          <div class="pme-distinction-col highlight-col">
+            <h6 style="color: var(--color-gold-light);"><i class="fas fa-file-invoice-dollar"></i> Diagnostic Complet Nexus PME 360</h6>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">
+              Audit approfondi sur vos bilans, trésorerie et comptes de résultat réels. Livrables : Cartographie des risques, score certifié et feuille de route d'action à 90 jours.
+            </p>
           </div>
         </div>
 
-        <!-- High-Impact Conversion CTA -->
-        <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(23, 49, 81, 0.6); border: 1px solid var(--border-gold); border-radius: var(--radius-md);">
-          <h5 style="color: #ffffff; font-size: 1.15rem; margin-bottom: 0.5rem; font-family: var(--font-heading);">
-            Vous souhaitez connaître votre situation financière réelle et obtenir votre feuille de route chiffrée ?
-          </h5>
-          <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem; max-width: 650px; margin-left: auto; margin-right: auto;">
-            Passez du pré-diagnostic déclaratif à l'audit financier complet sur la base de vos états financiers certifiés ou déclaratifs.
+        <!-- Systematic Prudence Disclaimer -->
+        <div class="pme-disclaimer-box">
+          <i class="fas fa-shield-alt" style="font-size: 1.3rem; color: #f59e0b; flex-shrink: 0; margin-top: 0.1rem;"></i>
+          <div>
+            <strong>Avertissement méthodologique & prudentiel :</strong> Ce pré-score constitue une première évaluation indicative de votre entreprise. Il ne remplace pas l'analyse approfondie de vos états financiers réels et ne constitue pas une notation de crédit bancaire, une promesse ou une garantie d'obtention de crédit.
+          </div>
+        </div>
+
+        <!-- High Conversion CTA to Diagnostic 150k -->
+        <div style="text-align: center; margin-top: 2rem; padding: 1.75rem; background: radial-gradient(circle at 50% 50%, rgba(23, 49, 81, 0.9) 0%, rgba(10, 20, 36, 0.95) 100%); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+          <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fas fa-file-invoice-dollar"></i> PROCHAINE ÉTAPE RECOMMANDÉE</span>
+          <h4 style="color: #ffffff; font-size: 1.35rem; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+            Vous souhaitez connaître votre situation financière réelle et débloquer vos financements ?
+          </h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            Le diagnostic <strong>Nexus PME 360</strong> analyse vos données financières et opérationnelles afin d'identifier vos forces, vos fragilités, vos principaux risques et vos priorités d'action.
           </p>
+          <div style="margin-bottom: 1.25rem;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">Livrables : Cartographie 7 Dimensions · Nexus Score Certifié · Plan 90 Jours</span>
+            <span style="font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800; color: var(--color-gold-light);">150 000 FCFA</span>
+          </div>
           <a href="#contact" class="btn btn-gold btn-lg cta-order-diag-150k" id="btn-order-diag-150k" style="box-shadow: 0 6px 25px rgba(213, 187, 118, 0.35);">
-            <i class="fas fa-file-invoice-dollar"></i> Demander le Diagnostic Complet — 150 000 FCFA
+            <i class="fas fa-file-invoice-dollar"></i> Demander mon diagnostic
           </a>
         </div>
+
       </div>
     `;
 
-    pmeRecommendations.innerHTML = recoHTML;
-    pmeResultBox.style.display = 'block';
+    if (pmeRecommendations) {
+      pmeRecommendations.innerHTML = recoHTML;
+    }
+    if (pmeResultBox) {
+      pmeResultBox.style.display = 'block';
+      pmeResultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     // Attach click listener to dynamic CTA
     const orderBtn = document.getElementById('btn-order-diag-150k');
     if (orderBtn) {
       orderBtn.addEventListener('click', (e) => {
         if (window.NexusAnalytics) {
-          window.NexusAnalytics.trackEvent('clic_diagnostic_150k', { score: pmeScore, strengthsCount: strengths.length, vigilanceCount: vigilances.length });
+          window.NexusAnalytics.trackEvent('diagnostic_click', {
+            score: pmeScore,
+            sector: selectedSectorKey,
+            company: leadCompany
+          });
         }
         const selectNeed = document.getElementById('contact-pole-select');
         if (selectNeed) {
           selectNeed.value = 'pme-360';
         }
+        const contactSector = document.getElementById('contact-sector');
+        if (contactSector && selectedSectorKey) {
+          contactSector.value = selectedSectorKey === 'btp' ? 'btp-industrie' : (selectedSectorKey === 'commerce' ? 'commerce-distrib' : selectedSectorKey);
+        }
+        const contactNameInput = document.getElementById('contact-name');
+        if (contactNameInput && leadName && !contactNameInput.value) {
+          contactNameInput.value = leadName;
+        }
+        const contactCompanyInput = document.getElementById('contact-inst');
+        if (contactCompanyInput && leadCompany && !contactCompanyInput.value) {
+          contactCompanyInput.value = leadCompany;
+        }
+        const contactPhoneInput = document.getElementById('contact-phone');
+        if (contactPhoneInput && leadPhone && !contactPhoneInput.value) {
+          contactPhoneInput.value = leadPhone;
+        }
+        const contactEmailInput = document.getElementById('contact-email');
+        if (contactEmailInput && leadEmail && !contactEmailInput.value) {
+          contactEmailInput.value = leadEmail;
+        }
         const messageBox = document.getElementById('contact-message');
-        if (messageBox && (!messageBox.value || messageBox.value.indexOf('Pre-Score') !== -1)) {
-          messageBox.value = `Bonjour,\nSuite à la réalisation de mon pré-diagnostic PME 360 (Nexus Pre-Score: ${pmeScore}/100, ${vigilances.length} points de vigilance identifiés), je souhaite commander le Diagnostic Financier Complet PME 360 à 150 000 FCFA afin d'analyser nos états financiers et structurer notre plan d'action à 90 jours.`;
+        if (messageBox) {
+          messageBox.value = `Bonjour,\nSuite à la réalisation de notre pré-diagnostic en ligne dans le secteur ${sectorData.name} (Nexus Pre-Score : ${pmeScore}/100, niveau : ${pmeLevel}), nous souhaitons commander le Diagnostic Complet Nexus PME 360 à 150 000 FCFA sur la base de nos états financiers afin d'obtenir notre cartographie des risques et notre plan d'action à 90 jours.`;
         }
       });
-    }
-
-    if (window.NexusAnalytics) {
-      window.NexusAnalytics.trackEvent('questionnaire_pme_termine', { score: pmeScore, yesCount: yesCount });
     }
   }
 }
@@ -464,4 +672,5 @@ function formatFCFA(val) {
   if (isNaN(val)) return '0 FCFA';
   return Math.round(val).toLocaleString('fr-FR') + ' FCFA';
 }
+
 

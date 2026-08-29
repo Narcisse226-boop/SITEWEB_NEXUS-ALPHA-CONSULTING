@@ -530,6 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initStickyMobileCTA();
   initNeedSelectCTAs();
+  initAnalyticsTracking();
   
   // Track landing view
   window.NexusAnalytics.trackEvent('visite_page_accueil', {
@@ -537,6 +538,20 @@ document.addEventListener('DOMContentLoaded', () => {
     referrer: document.referrer
   });
 });
+
+function initAnalyticsTracking() {
+  document.querySelectorAll('[data-analytics-event]').forEach(el => {
+    el.addEventListener('click', () => {
+      const eventName = el.dataset.analyticsEvent;
+      if (eventName && window.NexusAnalytics) {
+        window.NexusAnalytics.trackEvent(eventName, {
+          href: el.getAttribute('href') || '',
+          text: el.innerText.trim().substring(0, 50)
+        });
+      }
+    });
+  });
+}
 
 /* --------------------------------------------------------------------------
    NAVBAR & SCROLL EFFECTS

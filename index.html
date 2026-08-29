@@ -38,8 +38,8 @@
       <!-- Desktop Navigation -->
       <nav class="main-nav">
         <a href="#accueil" class="nav-link active">Accueil</a>
-        <a href="#parcours-pme" class="nav-link">PME & PMI</a>
-        <a href="#nexus-pme-agro" class="nav-link">PME Agro</a>
+        <a href="#parcours-pme" class="nav-link">Nexus PME</a>
+        <a href="#secteurs-pme" class="nav-link">Secteurs</a>
         <a href="#financeready-section" class="nav-link">FinanceReady</a>
         <a href="#institutions-financieres" class="nav-link">Institutions Financières</a>
         <a href="#quant-lab" class="nav-link">Autodiagnostic & Lab</a>
@@ -49,7 +49,7 @@
 
       <!-- Header Actions -->
       <div class="header-actions">
-        <a href="#quant-lab" class="btn btn-gold btn-sm d-none-mobile" data-analytics-event="clic_header_prediagnostic">
+        <a href="#quant-lab" class="btn btn-gold btn-sm d-none-mobile" data-analytics-event="hero_pme_click">
           <i class="fas fa-calculator"></i> Pré-diagnostic Gratuit
         </a>
         <button class="mobile-menu-btn" id="mobile-menu-open" aria-label="Ouvrir le menu">
@@ -71,8 +71,8 @@
       </div>
       <nav class="mobile-nav-links">
         <a href="#accueil" class="nav-link">Accueil <i class="fas fa-chevron-right"></i></a>
-        <a href="#parcours-pme" class="nav-link">PME & PMI (Nexus PME 360) <i class="fas fa-chevron-right"></i></a>
-        <a href="#nexus-pme-agro" class="nav-link">Nexus PME Agro <i class="fas fa-chevron-right"></i></a>
+        <a href="#parcours-pme" class="nav-link">Nexus PME (Parcours 5 Étapes) <i class="fas fa-chevron-right"></i></a>
+        <a href="#secteurs-pme" class="nav-link">Secteurs d'activité (Agro, BTP, etc.) <i class="fas fa-chevron-right"></i></a>
         <a href="#financeready-section" class="nav-link">FinanceReady PME <i class="fas fa-chevron-right"></i></a>
         <a href="#institutions-financieres" class="nav-link">Institutions Financières <i class="fas fa-chevron-right"></i></a>
         <a href="#quant-lab" class="nav-link">Autodiagnostic Express & Lab <i class="fas fa-chevron-right"></i></a>
@@ -82,7 +82,7 @@
       </nav>
     </div>
     <div style="padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
-      <a href="#quant-lab" class="btn btn-gold btn-md" style="width: 100%; margin-bottom: 0.75rem;">
+      <a href="#quant-lab" class="btn btn-gold btn-md" style="width: 100%; margin-bottom: 0.75rem;" data-analytics-event="hero_pme_click">
         <i class="fas fa-tasks"></i> Faire mon Pré-diagnostic
       </a>
       <a href="https://wa.me/22678642891" target="_blank" class="btn btn-outline-gold btn-md" style="width: 100%;">
@@ -111,7 +111,7 @@
       </h1>
 
       <p class="hero-description animate-fade-up">
-        <strong>Nexus Alpha Consulting</strong> accompagne les institutions financières, PME et PMI africaines dans la maîtrise des risques, l'amélioration de leur performance financière et la préparation de leurs décisions stratégiques.
+        Nexus Alpha Consulting accompagne les PME/PMI et les institutions financières africaines dans la maîtrise des risques, l'amélioration de leur performance financière et la préparation de leurs décisions stratégiques.
       </p>
 
       <!-- Key Focus Mention -->
@@ -123,39 +123,42 @@
       </div>
 
       <div class="hero-actions animate-fade-up">
-        <a href="#quant-lab" class="btn btn-gold btn-lg" data-analytics-event="clic_hero_prediagnostic">
-          <i class="fas fa-tasks"></i> Évaluer mon entreprise (Pré-diagnostic gratuit)
+        <a href="#quant-lab" class="btn btn-gold btn-lg" data-analytics-event="hero_pme_click">
+          <i class="fas fa-tasks"></i> Évaluer mon entreprise
         </a>
-        <a href="#contact" class="btn btn-navy btn-lg" data-select-need="expert-institution" data-need-context="Bonjour, je souhaite échanger avec un expert associé de Nexus Alpha Consulting concernant notre dispositif." data-analytics-event="clic_hero_expert">
+        <a href="#institutions-financieres" class="btn btn-navy btn-lg" data-analytics-event="hero_financial_click">
+          <i class="fas fa-shield-alt"></i> Découvrir nos solutions Risk
+        </a>
+        <a href="#contact" class="btn btn-outline-gold btn-lg" data-select-need="expert-institution" data-need-context="Bonjour, je souhaite échanger avec un expert associé de Nexus Alpha Consulting concernant notre dispositif." data-analytics-event="expert_contact_click">
           <i class="fas fa-user-tie"></i> Parler à un expert
-        </a>
-        <a href="#parcours-pme" class="btn btn-outline-gold btn-lg">
-          <i class="fas fa-building"></i> Solutions PME & PMI
         </a>
       </div>
 
-      <!-- Dual Audience Gateway Cards -->
+      <!-- Dual Audience Gateway Cards (Side by side on desktop, stacked on mobile) -->
       <div class="dual-pathway-grid animate-fade-up">
         <!-- Path PME -->
         <div class="pathway-card pme-path">
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span class="badge badge-gold"><i class="fas fa-industry"></i> PARCOURS PME & PMI</span>
-              <span style="font-size: 0.8rem; color: var(--color-gold-light); font-weight: 600;">Agro-industrie & Services</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span class="badge badge-gold"><i class="fas fa-industry"></i> UNIVERS PME / PMI</span>
+              <span style="font-size: 0.8rem; color: var(--color-gold-light); font-weight: 600;">Agro · Industrie · BTP · Commerce · Services</span>
             </div>
-            <h3 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem;">
-              Dirigeants d'Entreprises & PMI
+            <h3 style="font-size: 1.3rem; color: #ffffff; margin-bottom: 0.35rem;">
+              Vous êtes une PME ou une PMI ?
             </h3>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-              Sécurisez votre trésorerie à 13 semaines, débloquez vos financements bancaires avec <strong>FinanceReady</strong> et pilotez vos marges réelles.
+            <p style="font-size: 0.92rem; color: var(--color-gold-light); font-weight: 700; margin-bottom: 0.75rem;">
+              Pilotez mieux. Financez mieux. Croissez sans perdre le contrôle.
+            </p>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 1.25rem;">
+              Nexus Alpha Consulting vous aide à comprendre votre situation financière, maîtriser vos risques, améliorer votre performance et préparer votre entreprise à sa prochaine étape de croissance.
             </p>
           </div>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="#parcours-pme" class="btn btn-gold btn-sm">
-              <i class="fas fa-arrow-down"></i> Découvrir l'offre PME
+            <a href="#quant-lab" class="btn btn-gold btn-sm" data-analytics-event="hero_pme_click">
+              <i class="fas fa-calculator"></i> Évaluer mon entreprise
             </a>
-            <a href="#quant-lab" class="btn btn-outline-gold btn-sm">
-              <i class="fas fa-calculator"></i> Pré-diagnostic (0 FCFA)
+            <a href="#parcours-pme" class="btn btn-outline-gold btn-sm">
+              <i class="fas fa-road"></i> Découvrir le parcours PME
             </a>
           </div>
         </div>
@@ -163,23 +166,26 @@
         <!-- Path Institutions -->
         <div class="pathway-card inst-path">
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-              <span class="badge badge-blue"><i class="fas fa-landmark"></i> PARCOURS INSTITUTIONS</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+              <span class="badge badge-blue"><i class="fas fa-landmark"></i> UNIVERS INSTITUTIONS FINANCIÈRES</span>
               <span style="font-size: 0.8rem; color: var(--color-accent-blue); font-weight: 600;">Banques · SGO · Assurances · IMF</span>
             </div>
-            <h3 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem;">
-              Institutions Financières & Banques
+            <h3 style="font-size: 1.3rem; color: #ffffff; margin-bottom: 0.35rem;">
+              Vous êtes une banque, une SGO ou une institution financière ?
             </h3>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-              Modélisation quantitative Credit Risk (PD/LGD/EAD, IFRS 9 ECL), validation MRM (SR 11-7), ALM (IRRBB/FRTB) et scoring data-driven.
+            <p style="font-size: 0.92rem; color: var(--color-accent-blue); font-weight: 700; margin-bottom: 0.75rem;">
+              Mesurez. Anticipez. Maîtrisez vos risques.
+            </p>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; margin-bottom: 1.25rem;">
+              Credit Risk, scoring, Model Risk Management, Market Risk, Data & Risk Analytics et automatisation des processus de risque.
             </p>
           </div>
           <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <a href="#institutions-financieres" class="btn btn-navy btn-sm" style="border: 1px solid var(--color-accent-blue);">
-              <i class="fas fa-arrow-down"></i> Offre Institutionnelle
+            <a href="#institutions-financieres" class="btn btn-navy btn-sm" style="border: 1px solid var(--color-accent-blue);" data-analytics-event="hero_financial_click">
+              <i class="fas fa-shield-alt"></i> Découvrir nos solutions Risk
             </a>
-            <a href="#contact" class="btn btn-outline-gold btn-sm" data-select-need="pole-credit">
-              <i class="fas fa-comments"></i> Discuter d'un cas d'usage
+            <a href="#contact" class="btn btn-outline-gold btn-sm" data-select-need="expert-institution" data-analytics-event="expert_contact_click">
+              <i class="fas fa-comments"></i> Parler à un expert
             </a>
           </div>
         </div>
@@ -208,74 +214,142 @@
   </section>
 
   <!-- =========================================================================
-       SECTION A : PRIORITÉ COMMERCIALE PME & PMI (LEVIER CROISSANCE & TRÉSORERIE)
+       SECTION A : NEXUS PME — OÙ EN ÊTES-VOUS ? (PARCOURS COMMERCIAL EN 5 ÉTAPES)
        ========================================================================= -->
   <section id="parcours-pme" style="background: radial-gradient(circle at 50% 10%, rgba(213, 187, 118, 0.12) 0%, rgba(7, 13, 24, 0.98) 75%); padding-top: 5rem; padding-bottom: 5rem;">
     <div class="container">
       <div class="section-header-center animate-fade-up">
         <div class="section-tag">
-          <i class="fas fa-industry"></i> Parcours Dirigeants PME & PMI
+          <i class="fas fa-road"></i> Parcours Commercial Nexus PME
         </div>
         <h2 class="section-title">
-          Votre PME peut-elle réellement financer sa <span class="text-gradient-gold">prochaine étape de croissance ?</span>
+          NEXUS PME — <span class="text-gradient-gold">Où en êtes-vous ?</span>
         </h2>
-        <p class="section-subtitle" style="font-size: 1.05rem; color: #ffffff; max-width: 820px; margin-left: auto; margin-right: auto; line-height: 1.7;">
-          Vous avez des clients, des projets et des opportunités. Mais votre trésorerie, votre rentabilité, votre BFR et votre structure financière sont-ils suffisamment solides pour soutenir votre croissance sans risque d'impasse ?
+        <p class="section-subtitle" style="font-size: 1.05rem; color: #ffffff; max-width: 860px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+          Vous n'avez pas besoin de choisir vous-même parmi dix solutions. Commencez par le diagnostic. Nexus Alpha Consulting vous aide ensuite à identifier et déployer les solutions précisément adaptées à votre situation.
         </p>
         <div style="margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.5rem 1.25rem; border-radius: var(--radius-full); font-size: 0.85rem; color: #a7f3d0;">
           <i class="fas fa-check-circle text-emerald"></i> Aucun état financier n'est nécessaire pour commencer le pré-diagnostic en ligne.
         </div>
       </div>
 
-      <!-- 3-Tier Milestone Ladder -->
-      <div class="pme-funnel-steps animate-fade-up">
+      <!-- 5-Step Commercial Funnel Grid -->
+      <div class="pme-5step-grid animate-fade-up">
+        
         <!-- Step 1 -->
         <div class="pme-step-card">
-          <div class="pme-step-number">1</div>
-          <span class="badge badge-emerald" style="width: fit-content;">Sans engagement</span>
-          <h4 style="font-size: 1.2rem; color: #ffffff; margin-top: 0.5rem;">Pré-diagnostic en Ligne</h4>
-          <div class="pme-step-price">GRATUIT</div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-            9 questions clés pour évaluer immédiatement la maturité de votre gestion, détecter vos angles morts et obtenir votre <strong>Nexus Pre-Score™</strong>.
-          </p>
-          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" style="margin-top: auto;">
-            <i class="fas fa-tasks"></i> Commencer (5 min)
+          <div>
+            <div class="pme-step-header">
+              <span class="pme-step-number">1</span>
+              <span class="badge badge-emerald">GRATUIT · 5 min</span>
+            </div>
+            <div class="pme-step-num-badge">ÉTAPE 1</div>
+            <h4 style="font-size: 1.15rem; color: #ffffff; margin-top: 0.35rem; margin-bottom: 0.4rem;">
+              Je veux savoir où j'en suis
+            </h4>
+            <div class="pme-step-price">Pré-diagnostic PME</div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Première évaluation en 9 questions clés pour prendre conscience de vos vulnérabilités et calculer votre <strong>Nexus Pre-Score™</strong>.
+            </p>
+          </div>
+          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" style="margin-top: auto; width: 100%; text-align: center;" data-analytics-event="prediagnostic_start">
+            <i class="fas fa-tasks"></i> Faire mon pré-diagnostic
           </a>
         </div>
 
-        <!-- Step 2 (Highlighted) -->
+        <!-- Step 2 (Highlighted Active Milestone) -->
         <div class="pme-step-card active-step">
-          <div class="pme-step-number" style="background: #ffffff; color: #070d18;">2</div>
-          <span class="badge badge-gold" style="width: fit-content;">Sur états financiers</span>
-          <h4 style="font-size: 1.2rem; color: #ffffff; margin-top: 0.5rem;">Diagnostic PME 360 Complet</h4>
-          <div class="pme-step-price">150 000 FCFA</div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-            Analyse approfondie de vos bilans, trésorerie et rentabilité par un expert financier Nexus Alpha. Livrable : Cartographie des risques & Roadmap 90 jours.
-          </p>
-          <a href="#contact" class="btn btn-gold btn-sm" data-select-need="pme-360" data-need-context="Bonjour, je souhaite commander le Diagnostic PME 360 Complet à 150 000 FCFA sur la base de nos états financiers." style="margin-top: auto;">
+          <div>
+            <div class="pme-step-header">
+              <span class="pme-step-number">2</span>
+              <span class="badge badge-gold">Sur états financiers</span>
+            </div>
+            <div class="pme-step-num-badge">ÉTAPE 2 · CŒUR DU DISPOSITIF</div>
+            <h4 style="font-size: 1.15rem; color: #ffffff; margin-top: 0.35rem; margin-bottom: 0.4rem;">
+              Je veux comprendre ma situation
+            </h4>
+            <div class="pme-step-price">Diagnostic Nexus PME 360</div>
+            <div style="font-size: 1.25rem; font-weight: 800; color: var(--color-gold-light); margin-bottom: 0.5rem;">150 000 FCFA</div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Analyse financière approfondie (rentabilité, BFR, trésorerie, capacité de remboursement). Livrables : Cartographie 7 dimensions, Score certifié & Plan 90 jours.
+            </p>
+          </div>
+          <a href="#contact" class="btn btn-gold btn-sm" data-select-need="pme-360" data-need-context="Bonjour, je souhaite commander le Diagnostic Nexus PME 360 à 150 000 FCFA sur la base de nos états financiers." style="margin-top: auto; width: 100%; text-align: center;" data-analytics-event="diagnostic_click">
             <i class="fas fa-file-invoice-dollar"></i> Demander mon diagnostic
           </a>
         </div>
 
         <!-- Step 3 -->
         <div class="pme-step-card">
-          <div class="pme-step-number">3</div>
-          <span class="badge badge-blue" style="width: fit-content;">Bancarisation & Levée</span>
-          <h4 style="font-size: 1.2rem; color: #ffffff; margin-top: 0.5rem;">FinanceReady PME™</h4>
-          <div class="pme-step-price">Dès 750 000 FCFA</div>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
-            Montage complet de votre dossier bancable : projections financières 3-5 ans, modélisation DSCR et <strong>Investment & Financing Memorandum</strong>.
-          </p>
-          <a href="#financeready-section" class="btn btn-outline-gold btn-sm" style="margin-top: auto;">
-            <i class="fas fa-file-signature"></i> Voir l'accompagnement
+          <div>
+            <div class="pme-step-header">
+              <span class="pme-step-number">3</span>
+              <span class="badge badge-blue">Selon diagnostic</span>
+            </div>
+            <div class="pme-step-num-badge">ÉTAPE 3</div>
+            <h4 style="font-size: 1.15rem; color: #ffffff; margin-top: 0.35rem; margin-bottom: 0.4rem;">
+              Je veux corriger mes fragilités
+            </h4>
+            <div class="pme-step-price">Solutions Complémentaires</div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Déploiement ciblé d'outils adaptés à vos priorités : CashControl 13 sem., Digital PME 360, Growth & Risk, Energy Cost & ROI, CFO Light.
+            </p>
+          </div>
+          <a href="#solutions-pme" class="btn btn-outline-gold btn-sm" style="margin-top: auto; width: 100%; text-align: center;">
+            <i class="fas fa-layer-group"></i> Découvrir les solutions
           </a>
         </div>
+
+        <!-- Step 4 -->
+        <div class="pme-step-card">
+          <div>
+            <div class="pme-step-header">
+              <span class="pme-step-number">4</span>
+              <span class="badge badge-gold">Bancarisation & Levée</span>
+            </div>
+            <div class="pme-step-num-badge">ÉTAPE 4</div>
+            <h4 style="font-size: 1.15rem; color: #ffffff; margin-top: 0.35rem; margin-bottom: 0.4rem;">
+              Je veux financer ma croissance
+            </h4>
+            <div class="pme-step-price">FinanceReady PME™</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--color-gold-light); margin-bottom: 0.5rem;">Dès 750 000 FCFA</div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Fiabilisation comptable, projections 3-5 ans, modélisation DSCR et rédaction du Mémorandum Financier bancable pour débloquer vos crédits.
+            </p>
+          </div>
+          <a href="#financeready-section" class="btn btn-outline-gold btn-sm" style="margin-top: auto; width: 100%; text-align: center;" data-analytics-event="financeready_click">
+            <i class="fas fa-file-signature"></i> Préparer mon financement
+          </a>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="pme-step-card">
+          <div>
+            <div class="pme-step-header">
+              <span class="pme-step-number">5</span>
+              <span class="badge badge-purple" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">Abonnement</span>
+            </div>
+            <div class="pme-step-num-badge">ÉTAPE 5</div>
+            <h4 style="font-size: 1.15rem; color: #ffffff; margin-top: 0.35rem; margin-bottom: 0.4rem;">
+              Être accompagné dans la durée
+            </h4>
+            <div class="pme-step-price">Nexus PME Control</div>
+            <div style="font-size: 1.1rem; font-weight: 800; color: var(--color-gold-light); margin-bottom: 0.5rem;">Dès 500k FCFA / mois</div>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Direction financière externalisée et comités mensuels de pilotage stratégique pour sécuriser votre trésorerie et vos marges en continu.
+            </p>
+          </div>
+          <a href="#contact" class="btn btn-outline-gold btn-sm" data-select-need="pme-cfo" data-need-context="Bonjour, je souhaite échanger sur l'abonnement mensuel de pilotage Nexus PME Control." style="margin-top: auto; width: 100%; text-align: center;" data-analytics-event="expert_contact_click">
+            <i class="fas fa-user-tie"></i> Parler à un expert
+          </a>
+        </div>
+
       </div>
 
       <!-- Quick Action CTA Banner -->
-      <div style="text-align: center; margin-top: 2rem;" class="animate-fade-up">
-        <a href="#quant-lab" class="btn btn-gold btn-lg" data-analytics-event="clic_section_pme_prediagnostic">
-          <i class="fas fa-play-circle"></i> Faire mon pré-diagnostic gratuit maintenant
+      <div style="text-align: center; margin-top: 2.5rem;" class="animate-fade-up">
+        <a href="#quant-lab" class="btn btn-gold btn-lg" data-analytics-event="prediagnostic_start">
+          <i class="fas fa-play-circle"></i> Faire mon pré-diagnostic gratuit maintenant (5 min)
         </a>
       </div>
     </div>
@@ -949,80 +1023,155 @@
   </section>
 
   <!-- =========================================================================
-       SECTION DÉDIÉE : NEXUS PME AGRO (LANDING AGRO-INDUSTRIE)
+       SECTION DÉDIÉE : SECTEURS PME (VOTRE SECTEUR. VOS ENJEUX. UNE MÊME MÉTHODE.)
        ========================================================================= -->
-  <section id="nexus-pme-agro" style="background: radial-gradient(circle at 50% 10%, rgba(34, 197, 94, 0.12) 0%, rgba(6, 12, 22, 0.98) 80%); padding: 5.5rem 0;">
+  <section id="secteurs-pme" style="background: radial-gradient(circle at 50% 10%, rgba(34, 197, 94, 0.08) 0%, rgba(6, 12, 22, 0.98) 80%); padding: 5.5rem 0;">
     <div class="container">
-      <div class="agro-highlight-banner animate-fade-up">
-        <div class="section-tag" style="background: rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.35); color: #86efac; margin-bottom: 1rem;">
-          <i class="fas fa-seedling"></i> Focus Agro-Industrie Africaine
+      <div class="section-header-center animate-fade-up">
+        <div class="section-tag emerald">
+          <i class="fas fa-industry"></i> Adaptabilité Sectorielle
         </div>
-        <h2 style="font-size: 2.1rem; color: #ffffff; margin-bottom: 1rem; font-family: var(--font-heading);">
-          Nexus PME Agro : <span class="text-gradient-gold">Financez votre croissance sans perdre le contrôle de votre trésorerie</span>
+        <h2 class="section-title">
+          Votre secteur. Vos enjeux. <span class="text-gradient-gold">Une même méthode.</span>
         </h2>
-        <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 850px; line-height: 1.7;">
-          Dans l'agro-industrie au Burkina Faso et en Afrique de l'Ouest, les saisons d'achat créent d'immenses tensions de trésorerie : le BFR explose, les stocks s'accumulent et l'accès aux crédits de campagne conditionne la rentabilité de toute l'année.
+        <p class="section-subtitle" style="font-size: 1.05rem; color: #ffffff; max-width: 860px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+          La logique de notre produit <strong>Nexus PME 360</strong> est unique et rigoureuse, mais son application s'adapte précisément aux spécificités opérationnelles de chaque univers d'activité.
         </p>
+      </div>
 
-        <!-- 6 Agro-Specific Challenges Grid -->
-        <div class="agro-challenges-grid">
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-calendar-alt"></i> 1. Saisonnalité des Achats</h5>
-            <p>Financement massif de la collecte en période de récolte sans provoquer d'asphyxie de trésorerie.</p>
+      <!-- 5-Sector Grid -->
+      <div class="pme-sector-cards-grid animate-fade-up">
+        
+        <!-- Sector 1: Agro-Industrie (Priority) -->
+        <div class="pme-sector-card priority-sector" id="nexus-pme-agro">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div class="pme-sector-icon">🌾</div>
+              <span class="badge badge-emerald" style="font-size: 0.75rem; font-weight: 800; letter-spacing: 0.04em;">
+                <i class="fas fa-star"></i> SECTEUR PRIORITAIRE
+              </span>
+            </div>
+            <h4 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+              Agro-industrie & Transformation
+            </h4>
+            <p style="font-size: 0.85rem; color: #86efac; font-weight: 600; margin-bottom: 0.75rem;">
+              BFR, stocks, saisonnalité, approvisionnement, énergie, financement de campagne et investissement.
+            </p>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Sécurisez vos collectes massives sans asphyxie de cash, calibrez vos crédits de campagne bancaires et optimisez vos coûts énergétiques industriels.
+            </p>
           </div>
-
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-boxes"></i> 2. BFR & Rotation des Stocks</h5>
-            <p>Optimisation du coût de détention des stocks agricoles périssables et maîtrise des délais de paiement distributeurs.</p>
-          </div>
-
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-solar-panel"></i> 3. Facture Énergétique Usine</h5>
-            <p>Arbitrage de rentabilité (VAN / TRI / Payback) : Réseau Sonabel vs Groupe diesel vs Solution Solaire / Hybride.</p>
-          </div>
-
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-cogs"></i> 4. Équipements de Transformation</h5>
-            <p>Montage des dossiers d'investissement pour acquisition de lignes industrielles (crédit-bail, leasing, emprunt bancaire).</p>
-          </div>
-
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-percent"></i> 5. Rendements Matière & Marges</h5>
-            <p>Calcul analytique des coûts de revient par kilo transformé et détection des fuites de marge opérationnelle.</p>
-          </div>
-
-          <div class="agro-challenge-item">
-            <h5><i class="fas fa-truck-moving"></i> 6. Logistique & Distribution</h5>
-            <p>Sécurisation du transport et couverture du risque d'impayés sur les grands grossistes et supermarchés.</p>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; align-items: center;">
-          <a href="#quant-lab" class="btn btn-gold btn-lg" data-analytics-event="clic_agro_evaluer">
-            <i class="fas fa-tasks"></i> Évaluer mon entreprise agro-industrielle (Pré-diagnostic)
-          </a>
-          <a href="#contact" class="btn btn-outline-gold btn-lg" data-select-need="pme-agro" data-need-context="Bonjour, nous sommes une entreprise agro-industrielle et nous souhaitons échanger sur l'accompagnement Nexus PME Agro (BFR de campagne, investissement équipement, trésorerie)." data-analytics-event="clic_agro_contact">
-            <i class="fas fa-comments"></i> Demander un audit agro-industriel
+          <a href="#quant-lab" class="btn btn-gold btn-sm" onclick="window.selectPMESector('agro-industrie')" style="width: 100%; text-align: center;" data-analytics-event="sector_selected">
+            <i class="fas fa-calculator"></i> Évaluer mon entreprise
           </a>
         </div>
+
+        <!-- Sector 2: Industrie & PMI -->
+        <div class="pme-sector-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div class="pme-sector-icon">🏭</div>
+              <span class="badge badge-gold" style="font-size: 0.75rem;">PMI & Usines</span>
+            </div>
+            <h4 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+              Industrie & PMI
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--color-gold-light); font-weight: 600; margin-bottom: 0.75rem;">
+              Rentabilité industrielle, coûts de production, stocks, investissements, énergie et trésorerie.
+            </p>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Calculez vos coûts de revient réels, détectez les fuites de marge sur vos lignes de production et financez vos équipements industriels.
+            </p>
+          </div>
+          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" onclick="window.selectPMESector('industrie')" style="width: 100%; text-align: center;" data-analytics-event="sector_selected">
+            <i class="fas fa-calculator"></i> Évaluer mon entreprise
+          </a>
+        </div>
+
+        <!-- Sector 3: BTP & Construction -->
+        <div class="pme-sector-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div class="pme-sector-icon">🏗️</div>
+              <span class="badge badge-blue" style="font-size: 0.75rem;">Chantiers & Marchés</span>
+            </div>
+            <h4 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+              BTP & Construction
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--color-accent-blue); font-weight: 600; margin-bottom: 0.75rem;">
+              BFR chantier, délais de paiement, créances, avances, marchés en cours, trésorerie et rentabilité.
+            </p>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Pilotez la trésorerie par marché, accélérez le recouvrement des décomptes et négociez vos cautions bancaires sans bloquer vos liquidités.
+            </p>
+          </div>
+          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" onclick="window.selectPMESector('btp')" style="width: 100%; text-align: center;" data-analytics-event="sector_selected">
+            <i class="fas fa-calculator"></i> Évaluer mon entreprise
+          </a>
+        </div>
+
+        <!-- Sector 4: Commerce & Distribution -->
+        <div class="pme-sector-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div class="pme-sector-icon">📦</div>
+              <span class="badge badge-gold" style="font-size: 0.75rem;">Négoce & Retail</span>
+            </div>
+            <h4 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+              Commerce & Distribution
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--color-gold-light); font-weight: 600; margin-bottom: 0.75rem;">
+              Stocks, rotation, marges, fournisseurs, délais clients, trésorerie et BFR.
+            </p>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Optimisez votre rotation des stocks, renégociez les délais fournisseurs et éliminez les références de produits qui consument votre trésorerie.
+            </p>
+          </div>
+          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" onclick="window.selectPMESector('commerce')" style="width: 100%; text-align: center;" data-analytics-event="sector_selected">
+            <i class="fas fa-calculator"></i> Évaluer mon entreprise
+          </a>
+        </div>
+
+        <!-- Sector 5: Services -->
+        <div class="pme-sector-card">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem;">
+              <div class="pme-sector-icon">💼</div>
+              <span class="badge badge-purple" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; font-size: 0.75rem;">Prestations & IT</span>
+            </div>
+            <h4 style="font-size: 1.25rem; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-heading);">
+              Services & Conseil
+            </h4>
+            <p style="font-size: 0.85rem; color: #c084fc; font-weight: 600; margin-bottom: 0.75rem;">
+              Rentabilité, charges fixes, productivité, trésorerie, croissance et financement.
+            </p>
+            <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+              Structurez vos charges fixes, améliorez le taux d'activité facturable et développez des revenus récurrents sous forme d'abonnements.
+            </p>
+          </div>
+          <a href="#quant-lab" class="btn btn-outline-gold btn-sm" onclick="window.selectPMESector('services')" style="width: 100%; text-align: center;" data-analytics-event="sector_selected">
+            <i class="fas fa-calculator"></i> Évaluer mon entreprise
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       SECTION DÉDIÉE : ÉTUDES DE CAS & PREUVES COMMERCIALES (NOS INTERVENTIONS)
+       SECTION DÉDIÉE : DES PROBLÉMATIQUES RÉELLES. DES SOLUTIONS CONCRÈTES.
        ========================================================================= -->
   <section id="cas-clients" style="background: rgba(10, 19, 36, 0.85); padding: 5.5rem 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
     <div class="container">
       <div class="section-header-center animate-fade-up">
         <div class="section-tag emerald">
-          <i class="fas fa-briefcase"></i> Retours d'Expérience & Impact Réel
+          <i class="fas fa-briefcase"></i> Preuves Commerciales & Retours d'Expérience
         </div>
         <h2 class="section-title">
-          Nos Interventions : <span class="text-gradient-gold">Des Résultats Mesurables sur le Terrain</span>
+          Des problématiques réelles. <span class="text-gradient-gold">Des solutions concrètes.</span>
         </h2>
         <p class="section-subtitle">
-          Chaque mission conduite par Nexus Alpha Consulting génère un impact économique, financier et réglementaire tangible pour nos clients.
+          Chaque mission conduite par Nexus Alpha Consulting s'appuie sur une méthode éprouvée, des outils quantitatifs rigoureux et un impact économique documenté sur le terrain.
         </p>
       </div>
 
@@ -1041,7 +1190,7 @@
             </h4>
 
             <div class="casestudy-block">
-              <div class="casestudy-section-title">Problème rencontré</div>
+              <div class="casestudy-section-title">Problématique</div>
               <p>Modèles de provisionnement IFRS 9 instables, fortes sur-provisions en Stage 2 et observations de la Commission Bancaire.</p>
             </div>
 
@@ -1057,7 +1206,7 @@
               <p>Validation sans réserve du superviseur, baisse de 14% de la volatilité des provisions et gain de 320M FCFA de fonds propres prudentiels.</p>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.75rem; font-style: italic;">
-              Cas client anonymisé — informations détaillées disponibles sur demande.
+              Cas client anonymisé documenté conformément aux accords de confidentialité (NDA).
             </div>
           </div>
         </div>
@@ -1074,7 +1223,7 @@
             </h4>
 
             <div class="casestudy-block">
-              <div class="casestudy-section-title">Problème rencontré</div>
+              <div class="casestudy-section-title">Problématique</div>
               <p>Crises récurrentes de liquidité pendant la campagne d'achat de matières premières et refus successifs des banques pour un crédit de 300M FCFA.</p>
             </div>
 
@@ -1090,7 +1239,7 @@
               <p>BFR réduit de 28 jours, obtention d'une ligne de crédit de campagne de 250M FCFA et zéro rupture de cash constatée sur la saison.</p>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.75rem; font-style: italic;">
-              Cas client anonymisé — informations détaillées disponibles sur demande.
+              Cas client anonymisé documenté conformément aux accords de confidentialité (NDA).
             </div>
           </div>
         </div>
@@ -1107,7 +1256,7 @@
             </h4>
 
             <div class="casestudy-block">
-              <div class="casestudy-section-title">Problème rencontré</div>
+              <div class="casestudy-section-title">Problématique</div>
               <p>Processus d'octroi manuel long (12 jours ouvrés), taux de portefeuille à risque (PAR 30) dégradé à 9,8% et asymétrie d'information sur les emprunteurs.</p>
             </div>
 
@@ -1123,11 +1272,16 @@
               <p>Délai de décision réduit à 48h, baisse du PAR 30 à 5,6% et progression de 35% du volume d'octroi sans dégradation de la qualité de crédit.</p>
             </div>
             <div style="font-size: 0.75rem; color: var(--text-dim); margin-top: 0.75rem; font-style: italic;">
-              Cas client anonymisé — informations détaillées disponibles sur demande.
+              Cas client anonymisé documenté conformément aux accords de confidentialité (NDA).
             </div>
           </div>
         </div>
 
+      </div>
+
+      <!-- Additional studies note -->
+      <div style="text-align: center; margin-top: 2.5rem; font-size: 0.88rem; color: var(--text-muted);" class="animate-fade-up">
+        <i class="fas fa-info-circle text-gold"></i> <em>Études de cas complémentaires sectorielles en cours de documentation et de publication.</em>
       </div>
     </div>
   </section>
@@ -1464,86 +1618,183 @@
           </button>
         </div>
 
-        <!-- TAB 0: AUTODIAGNOSTIC PME 360 (NEW) -->
+        <!-- TAB 0: AUTODIAGNOSTIC PME 360 (COMMERCIAL MINI-DIAGNOSTIC) -->
         <div class="quant-tab-panel active" id="tab-pme-quiz">
           <form id="pme-quiz-form">
-            <h4 style="color: #ffffff; margin-bottom: 0.5rem;">Autodiagnostic : Votre PME est-elle prête pour une croissance sereine ?</h4>
-            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-              Répondez en toute sincérité par <strong>OUI</strong> ou par <strong>NON</strong> aux 9 questions clés issues de la méthodologie <strong>NEXUS PME 360™</strong>.
-            </p>
+            
+            <div style="margin-bottom: 2rem;">
+              <h4 style="color: #ffffff; margin-bottom: 0.35rem; font-family: var(--font-heading);">
+                Pré-diagnostic Nexus PME 360™ : Évaluez votre entreprise en 5 minutes
+              </h4>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                Identifiez immédiatement vos vulnérabilités financières, calculez votre <strong>Nexus Pre-Score™</strong> et obtenez vos recommandations sectorielles personnalisées. Aucun document financier n'est requis à ce stade.
+              </p>
+            </div>
 
-            <div class="grid-2">
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">1. Savez-vous précisément combien de trésorerie votre entreprise aura dans 13 semaines ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q1" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q1" value="0"> <span>Non</span></label>
+            <!-- 1. SECTOR SELECTION -->
+            <div style="margin-bottom: 2rem;">
+              <label style="font-size: 0.95rem; font-weight: 700; color: var(--color-gold-light); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <span class="pme-step-number" style="width: 26px; height: 26px; font-size: 0.75rem; margin: 0;">1</span>
+                Quel est votre secteur d'activité ? *
+              </label>
+              
+              <div class="sector-picker-grid">
+                <label class="sector-picker-card selected priority-tag">
+                  <span class="sector-priority-pill"><i class="fas fa-star"></i> PRIORITAIRE</span>
+                  <input type="radio" name="pme_sector" value="agro-industrie" checked>
+                  <span class="sector-emoji">🌾</span>
+                  <span class="sector-name">Agro-industrie & Transformation</span>
+                </label>
+
+                <label class="sector-picker-card">
+                  <input type="radio" name="pme_sector" value="industrie">
+                  <span class="sector-emoji">🏭</span>
+                  <span class="sector-name">Industrie & PMI</span>
+                </label>
+
+                <label class="sector-picker-card">
+                  <input type="radio" name="pme_sector" value="btp">
+                  <span class="sector-emoji">🏗️</span>
+                  <span class="sector-name">BTP & Construction</span>
+                </label>
+
+                <label class="sector-picker-card">
+                  <input type="radio" name="pme_sector" value="commerce">
+                  <span class="sector-emoji">📦</span>
+                  <span class="sector-name">Commerce & Distribution</span>
+                </label>
+
+                <label class="sector-picker-card">
+                  <input type="radio" name="pme_sector" value="services">
+                  <span class="sector-emoji">💼</span>
+                  <span class="sector-name">Services & Prestations</span>
+                </label>
+
+                <label class="sector-picker-card">
+                  <input type="radio" name="pme_sector" value="autre">
+                  <span class="sector-emoji">🏢</span>
+                  <span class="sector-name">Autre secteur</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. NINE METHODOLOGICAL QUESTIONS -->
+            <div style="margin-bottom: 2rem;">
+              <label style="font-size: 0.95rem; font-weight: 700; color: var(--color-gold-light); display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                <span class="pme-step-number" style="width: 26px; height: 26px; font-size: 0.75rem; margin: 0;">2</span>
+                Répondez en toute sincérité par OUI ou par NON aux 9 questions clés :
+              </label>
+
+              <div class="grid-2">
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">1. Savez-vous précisément combien de trésorerie votre entreprise aura dans 13 semaines ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q1" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q1" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">2. Connaissez-vous votre Besoin en Fonds de Roulement (BFR) réel et son évolution ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q2" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q2" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">3. Connaissez-vous la marge nette réelle par activité, produit ou service ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q3" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q3" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">4. Pouvez-vous identifier et hiérarchiser vos trois principaux risques financiers ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q4" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q4" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">5. Vos données de gestion sont-elles fiables, centralisées et automatisées ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q5" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q5" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">6. Pouvez-vous produire rapidement un dossier financier convaincant pour une banque ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q6" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q6" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">7. Savez-vous quelles activités ou quels clients créent réellement de la valeur ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q7" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q7" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box">
+                  <div class="quiz-question-title">8. Votre croissance est-elle financée sans asphyxier votre trésorerie ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q8" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q8" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+
+                <div class="quiz-question-box" style="grid-column: span 2;">
+                  <div class="quiz-question-title">9. Mesurez-vous précisément l'impact de vos coûts énergétiques sur vos marges opérationnelles ?</div>
+                  <div class="quiz-options-group">
+                    <label class="quiz-option-label"><input type="radio" name="pme_q9" value="1" required> <span>Oui</span></label>
+                    <label class="quiz-option-label"><input type="radio" name="pme_q9" value="0"> <span>Non</span></label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. LEAD QUALIFICATION FORM (AVANT RÉSULTAT) -->
+            <div class="lead-capture-pane animate-fade-up">
+              <h5 class="lead-capture-title">
+                <i class="fas fa-user-check text-gold"></i>
+                Vos informations professionnelles pour recevoir votre synthèse personnalisée
+              </h5>
+              <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                Ces coordonnées nous permettent de qualifier votre profil et d'adapter les recommandations à votre structure.
+              </p>
+
+              <div class="form-row" style="margin-bottom: 1rem;">
+                <div class="form-group">
+                  <label for="pme_lead_name">Nom complet du dirigeant / responsable *</label>
+                  <input type="text" id="pme_lead_name" class="form-control" placeholder="ex. M. Ouedraogo" required>
+                </div>
+                <div class="form-group">
+                  <label for="pme_lead_company">Nom de votre entreprise *</label>
+                  <input type="text" id="pme_lead_company" class="form-control" placeholder="ex. Sahel Agro Industrie SARL" required>
                 </div>
               </div>
 
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">2. Connaissez-vous votre Besoin en Fonds de Roulement (BFR) réel et son évolution ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q2" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q2" value="0"> <span>Non</span></label>
+              <div class="form-row" style="margin-bottom: 1.25rem;">
+                <div class="form-group">
+                  <label for="pme_lead_phone">Téléphone / WhatsApp direct *</label>
+                  <input type="tel" id="pme_lead_phone" class="form-control" placeholder="+226 XX XX XX XX" required>
+                </div>
+                <div class="form-group">
+                  <label for="pme_lead_email">Email professionnel *</label>
+                  <input type="email" id="pme_lead_email" class="form-control" placeholder="direction@entreprise.bf" required>
                 </div>
               </div>
 
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">3. Connaissez-vous la marge nette réelle par activité, produit ou service ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q3" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q3" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">4. Pouvez-vous identifier et hiérarchiser vos trois principaux risques financiers ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q4" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q4" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">5. Vos données de gestion sont-elles fiables, centralisées et automatisées ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q5" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q5" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">6. Pouvez-vous produire rapidement un dossier financier convaincant pour une banque ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q6" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q6" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">7. Savez-vous quelles activités ou quels clients créent réellement de la valeur ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q7" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q7" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box">
-                <div class="quiz-question-title">8. Votre croissance est-elle financée sans asphyxier votre trésorerie ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q8" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q8" value="0"> <span>Non</span></label>
-                </div>
-              </div>
-
-              <div class="quiz-question-box" style="grid-column: span 2;">
-                <div class="quiz-question-title">9. Mesurez-vous précisément l'impact de vos coûts énergétiques sur vos marges opérationnelles ?</div>
-                <div class="quiz-options-group">
-                  <label class="quiz-option-label"><input type="radio" name="pme_q9" value="1" required> <span>Oui</span></label>
-                  <label class="quiz-option-label"><input type="radio" name="pme_q9" value="0"> <span>Non</span></label>
-                </div>
-              </div>
+              <button type="submit" class="btn btn-gold btn-lg" style="width: 100%; box-shadow: 0 6px 20px rgba(213, 187, 118, 0.3);">
+                <i class="fas fa-chart-pie"></i> Calculer mon Nexus Pre-Score™
+              </button>
             </div>
 
             <!-- Result Box -->
@@ -1558,12 +1809,6 @@
                 </div>
 
                 <div id="pme-recommendations"></div>
-
-                <div style="margin-top: 1.75rem; text-align: center;">
-                  <a href="#contact" class="btn btn-gold btn-md">
-                    <i class="fas fa-calendar-check"></i> Réserver votre Diagnostic NEXUS PME 360™ (Dès 150 000 FCFA)
-                  </a>
-                </div>
               </div>
             </div>
           </form>

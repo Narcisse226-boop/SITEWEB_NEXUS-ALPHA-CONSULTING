@@ -1923,14 +1923,271 @@
 @media (max-width: 992px) {
   .dual-pathway-grid,
   .pme-funnel-steps,
+  .pme-5step-grid,
+  .pme-sector-cards-grid,
   .agro-challenges-grid,
   .casestudies-grid,
   .pme-points-grid,
-  .financeready-steps-list {
+  .financeready-steps-list,
+  .pme-distinction-grid {
     grid-template-columns: 1fr;
   }
   .mobile-sticky-cta {
     display: flex;
   }
 }
+
+/* --------------------------------------------------------------------------
+   15. 5-STEP COMMERCIAL JOURNEY (NEXUS PME — OÙ EN ÊTES-VOUS ?)
+   -------------------------------------------------------------------------- */
+.pme-5step-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+
+.pme-step-card {
+  background: rgba(15, 27, 49, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.35rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-normal);
+}
+
+.pme-step-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-gold);
+  box-shadow: var(--shadow-md);
+}
+
+.pme-step-card.active-step {
+  border: 2px solid var(--color-gold-primary);
+  background: linear-gradient(180deg, rgba(23, 49, 81, 0.95) 0%, rgba(12, 22, 40, 0.95) 100%);
+  box-shadow: 0 10px 30px rgba(213, 187, 118, 0.25);
+}
+
+.pme-step-card.active-step .pme-step-number {
+  background: var(--color-gold-gradient);
+  color: #070d18;
+  font-weight: 800;
+}
+
+.pme-step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.pme-step-num-badge {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-gold-light);
+  letter-spacing: 0.05em;
+}
+
+/* --------------------------------------------------------------------------
+   16. SECTOR SHOWCASE SECTION (VOTRE SECTEUR. VOS ENJEUX. UNE MÊME MÉTHODE.)
+   -------------------------------------------------------------------------- */
+.pme-sector-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 2.5rem 0;
+}
+
+.pme-sector-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.pme-sector-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-gold-primary);
+  box-shadow: var(--shadow-gold);
+}
+
+.pme-sector-card.priority-sector {
+  border: 2px solid rgba(34, 197, 94, 0.6);
+  background: linear-gradient(180deg, rgba(22, 101, 52, 0.2) 0%, rgba(12, 22, 40, 0.95) 100%);
+  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.15);
+}
+
+.pme-sector-card.priority-sector:hover {
+  border-color: var(--color-emerald);
+}
+
+.pme-sector-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.pme-sector-card.priority-sector .pme-sector-icon {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   17. SECTOR PICKER & LEAD CAPTURE IN AUTODIAGNOSTIC
+   -------------------------------------------------------------------------- */
+.sector-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 2rem 0;
+}
+
+.sector-picker-card {
+  position: relative;
+  background: rgba(12, 22, 40, 0.7);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.sector-picker-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sector-picker-card:hover {
+  border-color: var(--border-gold);
+  background: rgba(23, 49, 81, 0.6);
+}
+
+.sector-picker-card.selected {
+  border-color: var(--color-gold-primary);
+  background: rgba(213, 187, 118, 0.15);
+  box-shadow: 0 0 12px rgba(213, 187, 118, 0.2);
+}
+
+.sector-picker-card .sector-emoji {
+  font-size: 1.5rem;
+  display: block;
+}
+
+.sector-picker-card .sector-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.sector-picker-card.priority-tag .sector-priority-pill {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--color-emerald);
+  color: #070d18;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Lead Capture Pane */
+.lead-capture-pane {
+  background: rgba(10, 20, 36, 0.85);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-top: 2rem;
+}
+
+.lead-capture-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: #ffffff;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Sector Insight Box in Results */
+.sector-insight-box {
+  background: rgba(30, 41, 59, 0.7);
+  border-left: 4px solid var(--color-gold-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.25rem 0;
+}
+
+.sector-insight-box h6 {
+  color: var(--color-gold-light);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sector-insight-box p {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Distinction Grid: Pré-diagnostic vs Diagnostic Complet */
+.pme-distinction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.pme-distinction-col {
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  background: rgba(12, 22, 40, 0.75);
+  border: 1px solid var(--border-subtle);
+}
+
+.pme-distinction-col.highlight-col {
+  border-color: rgba(213, 187, 118, 0.4);
+  background: rgba(23, 49, 81, 0.5);
+}
+
+.pme-distinction-col h6 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 
