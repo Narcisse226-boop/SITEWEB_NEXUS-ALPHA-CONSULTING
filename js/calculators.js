@@ -627,6 +627,8 @@ function initPMEQuiz() {
     const orderBtn = document.getElementById('btn-order-diag-150k');
     if (orderBtn) {
       orderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
         if (window.NexusAnalytics) {
           window.NexusAnalytics.trackEvent('diagnostic_click', {
             score: pmeScore,
@@ -637,30 +639,51 @@ function initPMEQuiz() {
         const selectNeed = document.getElementById('contact-pole-select');
         if (selectNeed) {
           selectNeed.value = 'pme-360';
+          selectNeed.dispatchEvent(new Event('change'));
         }
         const contactSector = document.getElementById('contact-sector');
         if (contactSector && selectedSectorKey) {
           contactSector.value = selectedSectorKey === 'btp' ? 'btp-industrie' : (selectedSectorKey === 'commerce' ? 'commerce-distrib' : selectedSectorKey);
         }
         const contactNameInput = document.getElementById('contact-name');
-        if (contactNameInput && leadName && !contactNameInput.value) {
+        if (contactNameInput && leadName) {
           contactNameInput.value = leadName;
         }
         const contactCompanyInput = document.getElementById('contact-inst');
-        if (contactCompanyInput && leadCompany && !contactCompanyInput.value) {
+        if (contactCompanyInput && leadCompany) {
           contactCompanyInput.value = leadCompany;
         }
         const contactPhoneInput = document.getElementById('contact-phone');
-        if (contactPhoneInput && leadPhone && !contactPhoneInput.value) {
+        if (contactPhoneInput && leadPhone) {
           contactPhoneInput.value = leadPhone;
         }
         const contactEmailInput = document.getElementById('contact-email');
-        if (contactEmailInput && leadEmail && !contactEmailInput.value) {
+        if (contactEmailInput && leadEmail) {
           contactEmailInput.value = leadEmail;
         }
         const messageBox = document.getElementById('contact-message');
         if (messageBox) {
           messageBox.value = `Bonjour,\nSuite à la réalisation de notre pré-diagnostic en ligne dans le secteur ${sectorData.name} (Nexus Pre-Score : ${pmeScore}/100, niveau : ${pmeLevel}), nous souhaitons commander le Diagnostic Complet Nexus PME 360 à 150 000 FCFA sur la base de nos états financiers afin d'obtenir notre cartographie des risques et notre plan d'action à 90 jours.`;
+        }
+
+        // Smooth scroll to contact section
+        const contactSec = document.getElementById('contact');
+        if (contactSec) {
+          const headerOffset = 80;
+          const elemPosition = contactSec.getBoundingClientRect().top;
+          const offsetPosition = elemPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // Highlight the form card
+          const formPane = document.querySelector('.contact-form-pane');
+          if (formPane) {
+            formPane.classList.remove('form-highlight-pulse');
+            void formPane.offsetWidth;
+            formPane.classList.add('form-highlight-pulse');
+          }
         }
       });
     }

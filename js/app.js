@@ -925,9 +925,46 @@ function initContactForm() {
 }
 
 /* --------------------------------------------------------------------------
-   NEED-SELECT CTAS (PRE-SELECT FORM DROPDOWN & CONTEXT)
+   NEED-SELECT CTAS & UNIVERSAL CONTACT SCROLL ENGINE
    -------------------------------------------------------------------------- */
 function initNeedSelectCTAs() {
+  // Global interceptor for all internal anchor clicks for robust offset scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      if (!targetId || targetId === '#') return;
+
+      const targetElem = document.querySelector(targetId);
+      if (targetElem) {
+        e.preventDefault();
+        
+        // Close mobile drawer if opened
+        const drawer = document.getElementById('mobile-drawer');
+        const overlay = document.getElementById('mobile-overlay');
+        if (drawer && drawer.classList.contains('open')) {
+          drawer.classList.remove('open');
+          if (overlay) overlay.style.display = 'none';
+          document.body.style.overflow = '';
+        }
+
+        const headerOffset = 80;
+        const elemPosition = targetElem.getBoundingClientRect().top;
+        const offsetPosition = elemPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+
+        // Update active class in navbar
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        const matchingLink = document.querySelector(`.nav-link[href="${targetId}"]`);
+        if (matchingLink) matchingLink.classList.add('active');
+      }
+    });
+  });
+
+  // Need-specific pre-fill & form focus
   document.querySelectorAll('[data-select-need]').forEach(btn => {
     btn.addEventListener('click', () => {
       const needValue = btn.dataset.selectNeed;
@@ -941,6 +978,7 @@ function initNeedSelectCTAs() {
       const selectElem = document.getElementById('contact-pole-select');
       if (selectElem && needValue) {
         selectElem.value = needValue;
+        selectElem.dispatchEvent(new Event('change'));
       }
 
       if (needContext) {
@@ -948,6 +986,20 @@ function initNeedSelectCTAs() {
         if (msgElem && (!msgElem.value || msgElem.value.length < 20)) {
           msgElem.value = needContext;
         }
+      }
+
+      // Highlight the contact form card
+      const formPane = document.querySelector('.contact-form-pane');
+      if (formPane) {
+        formPane.classList.remove('form-highlight-pulse');
+        void formPane.offsetWidth; // Trigger reflow
+        formPane.classList.add('form-highlight-pulse');
+      }
+
+      // Focus first empty input
+      const nameInput = document.getElementById('contact-name');
+      if (nameInput) {
+        setTimeout(() => nameInput.focus(), 600);
       }
     });
   });

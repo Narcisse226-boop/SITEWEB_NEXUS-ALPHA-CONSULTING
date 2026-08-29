@@ -2190,4 +2190,37 @@
   gap: 0.45rem;
 }
 
+/* --------------------------------------------------------------------------
+   GLOBAL SCROLL MARGINS & CONTACT FORM FOCUS PULSE
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+section[id], #contact, #quant-lab, #parcours-pme, #secteurs-pme, #financeready-section, #institutions-financieres, #cas-clients {
+  scroll-margin-top: 90px;
+}
+
+.contact-item-content a {
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.contact-item-content a:hover {
+  color: var(--color-gold-light) !important;
+  text-decoration: underline;
+  transform: translateX(2px);
+}
+
+@keyframes contactFormPulse {
+  0% { box-shadow: 0 0 0 0 rgba(213, 187, 118, 0.6); border-color: rgba(213, 187, 118, 0.8); }
+  50% { box-shadow: 0 0 30px 10px rgba(213, 187, 118, 0.35); border-color: #d5bb76; }
+  100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); border-color: var(--border-subtle); }
+}
+
+.contact-form-pane.form-highlight-pulse {
+  animation: contactFormPulse 2s ease-out 1;
+}
+
+
 
