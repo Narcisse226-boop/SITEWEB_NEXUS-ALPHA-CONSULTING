@@ -21,7 +21,7 @@ jobs:
         with:
           server: ${{ secrets.FTP_SERVER || 'web50.lws-hosting.com' }}
           username: ${{ secrets.FTP_USERNAME || 'c2802936c' }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ secrets.FTP_PASSWORD || 'DyzCAvmB6R5BsPr' }}
           server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
           protocol: ftp
           security: loose
