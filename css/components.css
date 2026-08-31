@@ -1648,6 +1648,9 @@
   border-radius: var(--radius-lg);
   padding: 2rem;
   box-shadow: var(--shadow-lg);
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }
 
 .pme-diag-score-header {

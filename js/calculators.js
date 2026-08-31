@@ -569,7 +569,7 @@ function initPMEQuiz() {
       : `<li>Félicitations, l'ensemble des 9 critères fondamentaux ont été validés positivement.</li>`;
 
     const recoHTML = `
-      <div class="pme-diag-results-pane animate-fade-up">
+      <div class="pme-diag-results-pane animate-fade-up visible" style="opacity: 1 !important; transform: none !important;">
         
         <div class="pme-diag-score-header">
           <div>
