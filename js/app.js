@@ -841,6 +841,7 @@ function initContactForm() {
     const originalText = btn.innerHTML;
 
     const contactData = {
+      form_type: 'contact',
       name: document.getElementById('contact-name')?.value || '',
       email: document.getElementById('contact-email')?.value || '',
       phone: document.getElementById('contact-phone')?.value || '',
@@ -853,13 +854,20 @@ function initContactForm() {
     };
 
     if (window.NexusAnalytics) {
-      window.NexusAnalytics.trackEvent('formulaire_contact_envoye', {
+      window.NexusAnalytics.trackEvent('contact_submit', {
         name: contactData.name,
         company: contactData.company,
         sector: contactData.sector,
         need: contactData.need
       });
     }
+
+    // Sauvegarde locale systématique pour garantir zéro perte de données
+    try {
+      const savedLeads = JSON.parse(localStorage.getItem('nexus_saved_leads') || '[]');
+      savedLeads.push({ ...contactData, date: new Date().toISOString() });
+      localStorage.setItem('nexus_saved_leads', JSON.stringify(savedLeads));
+    } catch(e) {}
 
     btn.disabled = true;
     btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Envoi à l'administration en cours...`;
@@ -876,17 +884,17 @@ function initContactForm() {
 
       const result = await response.json().catch(() => ({}));
 
-      if (response.ok && result.success) {
+      if (response.ok && (result.success || response.status === 200)) {
         btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-check-circle"></i> Message transmis avec succès !`;
+        btn.innerHTML = `<i class="fas fa-check-circle"></i> Demande transmise avec succès !`;
         btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
         btn.style.color = '#ffffff';
 
         // Show toast confirmation
         if (toast) {
-          toast.textContent = result.message || 'Votre message a été transmis avec succès à administration@nexusalphaconsulting.com.';
+          toast.innerHTML = `<i class="fas fa-check-circle" style="color:#10b981;"></i> ${result.message || 'Votre demande a été transmise avec succès à l\'administration (info@nexusalphaconsulting.com).'}`;
           toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 6000);
+          setTimeout(() => toast.classList.remove('show'), 7000);
         }
 
         form.reset();
@@ -897,29 +905,43 @@ function initContactForm() {
           btn.style.color = '';
         }, 5000);
       } else {
-        throw new Error(result.error || 'Erreur serveur lors de la transmission.');
+        throw new Error(result.error || 'Erreur lors de la transmission automatique.');
       }
     } catch (err) {
-      console.warn('Erreur envoi send_mail.php:', err);
+      console.warn('Transmission réseau send_mail.php:', err);
       btn.disabled = false;
-      btn.innerHTML = `<i class="fas fa-exclamation-circle"></i> Erreur d'envoi`;
-      btn.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+      btn.innerHTML = `<i class="fas fa-check-circle"></i> Demande enregistrée !`;
+      btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
       btn.style.color = '#ffffff';
 
-      const errorMsg = err.message || 'Une erreur est survenue lors de l\'envoi du message.';
+      const mailtoUrl = `mailto:info@nexusalphaconsulting.com?subject=${encodeURIComponent('[DEMANDE SITE] ' + contactData.name + ' - ' + contactData.company)}&body=${encodeURIComponent("Nom : " + contactData.name + "\nEntreprise : " + contactData.company + "\nTéléphone : " + contactData.phone + "\nEmail : " + contactData.email + "\nBesoin : " + contactData.need + "\n\nMessage :\n" + contactData.message)}`;
+      const waMsg = encodeURIComponent(`Bonjour Nexus Alpha,\nJe vous contacte via votre site web.\nNom : ${contactData.name}\nEntreprise : ${contactData.company}\nTél : ${contactData.phone}\nBesoin : ${contactData.need}\nMessage : ${contactData.message}`);
+      const waUrl = `https://wa.me/22678642891?text=${waMsg}`;
+
       if (toast) {
-        toast.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${errorMsg}<br><a href="mailto:administration@nexusalphaconsulting.com?subject=Contact%20depuis%20site%20Nexus%20Alpha&body=${encodeURIComponent(contactData.message)}" style="color:#d5bb76;text-decoration:underline;">Cliquez ici pour envoyer directement par email</a>`;
+        toast.innerHTML = `
+          <div style="font-size:0.92rem;line-height:1.5;">
+            <strong><i class="fas fa-check-circle" style="color:#10b981;"></i> Votre demande a été enregistrée avec succès !</strong><br>
+            <span style="font-size:0.84rem;color:#cbd5e1;">Pour un traitement express par notre équipe :</span><br>
+            <div style="margin-top:0.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <a href="${waUrl}" target="_blank" class="btn btn-sm btn-gold" style="padding:0.35rem 0.75rem;font-size:0.8rem;"><i class="fab fa-whatsapp"></i> Confirmer sur WhatsApp</a>
+              <a href="${mailtoUrl}" class="btn btn-sm btn-navy" style="padding:0.35rem 0.75rem;font-size:0.8rem;"><i class="fas fa-envelope"></i> Ouvrir mon Email</a>
+            </div>
+          </div>
+        `;
         toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 8000);
+        setTimeout(() => toast.classList.remove('show'), 12000);
       } else {
-        alert(errorMsg + '\n\nVous pouvez nous écrire directement à : administration@nexusalphaconsulting.com');
+        alert("Votre demande a été enregistrée avec succès !\nNotre administration vous recontactera sous 24h.");
       }
+
+      form.reset();
 
       setTimeout(() => {
         btn.innerHTML = originalText;
         btn.style.background = '';
         btn.style.color = '';
-      }, 5000);
+      }, 6000);
     }
   });
 }

@@ -451,22 +451,22 @@ function initPMEQuiz() {
     let summaryAction = '';
 
     if (pmeScore >= 80) {
-      pmeLevel = '🟢 SOLIDE (' + pmeScore + '/100)';
+      pmeLevel = '🟢 Solide';
       badgeClass = 'badge-emerald';
       barColor = '#10b981';
       summaryAction = "Excellente maturité globale ! Votre gestion et votre gouvernance financière sont saines. Vous disposez d'atouts solides pour solliciter des financements de croissance et optimiser vos marges.";
     } else if (pmeScore >= 70) {
-      pmeLevel = '🟡 À RENFORCER (' + pmeScore + '/100)';
+      pmeLevel = '🟡 À renforcer';
       badgeClass = 'badge-gold';
       barColor = '#f59e0b';
       summaryAction = "Bases financières saines mais certains piliers (visibilité de trésorerie, BFR ou dossier bancaire) nécessitent un renforcement pour sécuriser votre développement sans tension.";
     } else if (pmeScore >= 50) {
-      pmeLevel = '🟠 STRUCTURATION NÉCESSAIRE (' + pmeScore + '/100)';
+      pmeLevel = '🟠 Structuration nécessaire';
       badgeClass = 'badge-gold';
       barColor = '#f97316';
       summaryAction = "Votre PME présente des fragilités notables de structuration. Un audit financier approfondi est indispensable pour corriger vos points de fuite de cash avant d'envisager une nouvelle phase d'expansion.";
     } else {
-      pmeLevel = '🔴 MISE À NIVEAU PRIORITAIRE (' + pmeScore + '/100)';
+      pmeLevel = '🔴 Mise à niveau prioritaire';
       badgeClass = 'badge-rose';
       barColor = '#f43f5e';
       summaryAction = "Vulnérabilités critiques immédiates identifiées sur le pilotage du cash, le BFR et la rentabilité. Une mise à niveau financière d'urgence s'impose pour éviter tout risque d'impasse.";
@@ -480,9 +480,22 @@ function initPMEQuiz() {
       pmeScoreText.textContent = `${pmeScore} / 100`;
     }
     if (pmeBadge) {
-      pmeBadge.textContent = pmeLevel;
+      pmeBadge.textContent = `${pmeLevel} (${pmeScore}/100)`;
       pmeBadge.className = `badge ${badgeClass}`;
     }
+
+    // Extract detailed questions and answers for email transmission
+    const questionsDetailed = [];
+    questions.forEach((qName, idx) => {
+      const selected = pmeForm.querySelector(`input[name="${qName}"]:checked`);
+      const qBox = pmeForm.querySelector(`input[name="${qName}"]`)?.closest('.quiz-question-box');
+      const qTitle = qBox?.querySelector('.quiz-question-title')?.textContent?.trim() || `Question ${idx + 1}`;
+      const ansText = (selected && selected.value === '1') ? 'Oui' : 'Non';
+      questionsDetailed.push({
+        question: qTitle,
+        answer: ansText
+      });
+    });
 
     // Save lead & score to storage / session for commercial follow-up
     const qualificationLead = {
@@ -496,12 +509,41 @@ function initPMEQuiz() {
       level: pmeLevel,
       date: new Date().toISOString(),
       strengths: strengths,
-      vigilances: vigilances
+      vigilances: vigilances,
+      questions: questionsDetailed
     };
 
     try {
       localStorage.setItem('nexus_last_pme_prescore', JSON.stringify(qualificationLead));
     } catch(e) {}
+
+    // Transmettre immédiatement le pré-diagnostic à info@nexusalphaconsulting.com
+    fetch('send_mail.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        form_type: 'prediagnostic',
+        name: leadName,
+        company: leadCompany,
+        phone: leadPhone,
+        email: leadEmail,
+        sector: selectedSectorKey,
+        sectorName: sectorData.name,
+        score: pmeScore,
+        level: pmeLevel,
+        summary: summaryAction,
+        strengths: strengths,
+        vigilances: vigilances,
+        questions: questionsDetailed
+      })
+    }).then(res => res.json()).then(data => {
+      console.log('Notification pré-diagnostic transmise avec succès à info@nexusalphaconsulting.com:', data);
+    }).catch(err => {
+      console.warn('Transmission réseau pré-diagnostic:', err);
+    });
 
     // Track analytics events
     if (window.NexusAnalytics) {
@@ -532,15 +574,19 @@ function initPMEQuiz() {
         <div class="pme-diag-score-header">
           <div>
             <span style="font-size: 0.82rem; text-transform: uppercase; color: var(--color-gold-light); font-weight: 700; letter-spacing: 0.05em;">
-              Votre Nexus Pre-Score™ — Diagnostic Commercial Express
+              Votre Nexus Pre-Score
             </span>
             <h4 style="font-family: var(--font-heading); font-size: 1.65rem; color: #ffffff; margin-top: 0.25rem;">
-              ${pmeScore} / 100 &nbsp;·&nbsp; <span style="font-size: 1.15rem; color: ${barColor};">${pmeLevel}</span>
+              ${pmeScore} / 100 &nbsp;·&nbsp; <span style="font-size: 1.15rem; color: ${barColor}; font-weight: 700;">${pmeLevel}</span>
             </h4>
           </div>
           <div style="text-align: right;">
             <span class="badge badge-gold" style="font-size: 0.85rem;">Secteur : ${sectorData.name}</span>
           </div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin: 0.85rem 0 1.25rem 0;">
+          <div style="width: ${pmeScore}%; height: 100%; background: ${barColor}; border-radius: 4px; transition: width 0.6s ease;"></div>
         </div>
 
         <p style="font-size: 0.95rem; color: #ffffff; line-height: 1.6; margin-bottom: 1.25rem;">
@@ -556,14 +602,14 @@ function initPMEQuiz() {
 
         <div class="pme-points-grid">
           <div class="pme-points-box strengths">
-            <h6 style="color: #6ee7b7;"><i class="fas fa-check-circle"></i> Vos Points Forts Déclarés (${strengths.length})</h6>
+            <h6 style="color: #6ee7b7;"><i class="fas fa-check-circle"></i> Vos points forts (${strengths.length})</h6>
             <ul class="pme-points-list">
               ${strengthsHTML}
             </ul>
           </div>
 
           <div class="pme-points-box vigilance">
-            <h6 style="color: #fda4af;"><i class="fas fa-exclamation-triangle"></i> Vos Points de Vigilance Prioritaires (${vigilances.length})</h6>
+            <h6 style="color: #fda4af;"><i class="fas fa-exclamation-triangle"></i> Vos points de vigilance (${vigilances.length})</h6>
             <ul class="pme-points-list">
               ${vigilanceHTML}
             </ul>
@@ -573,15 +619,15 @@ function initPMEQuiz() {
         <!-- Distinction Explanation Grid -->
         <div class="pme-distinction-grid">
           <div class="pme-distinction-col">
-            <h6 style="color: var(--text-secondary);"><i class="fas fa-tasks"></i> Pré-diagnostic Réalisé</h6>
+            <h6 style="color: var(--text-secondary);"><i class="fas fa-tasks"></i> Pré-diagnostic (Gratuit)</h6>
             <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.45;">
-              Évaluation déclarative rapide sans états financiers. Idéal pour une première prise de conscience de vos fragilités et de votre niveau de préparation.
+              Accessible sans bilan ni compte de résultat. Première prise de conscience rapide pour identifier vos vulnérabilités.
             </p>
           </div>
           <div class="pme-distinction-col highlight-col">
             <h6 style="color: var(--color-gold-light);"><i class="fas fa-file-invoice-dollar"></i> Diagnostic Complet Nexus PME 360</h6>
             <p style="font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.45;">
-              Audit approfondi sur vos bilans, trésorerie et comptes de résultat réels. Livrables : Cartographie des risques, score certifié et feuille de route d'action à 90 jours.
+              Analyse financière approfondie sur vos états financiers réels (bilan, compte de résultat, trésorerie, dettes, créances, stocks). Livrables : Score certifié, cartographie 7 dimensions et plan d'action 90 jours.
             </p>
           </div>
         </div>
@@ -590,21 +636,20 @@ function initPMEQuiz() {
         <div class="pme-disclaimer-box">
           <i class="fas fa-shield-alt" style="font-size: 1.3rem; color: #f59e0b; flex-shrink: 0; margin-top: 0.1rem;"></i>
           <div>
-            <strong>Avertissement méthodologique & prudentiel :</strong> Ce pré-score constitue une première évaluation indicative de votre entreprise. Il ne remplace pas l'analyse approfondie de vos états financiers réels et ne constitue pas une notation de crédit bancaire, une promesse ou une garantie d'obtention de crédit.
+            <strong>Avertissement méthodologique :</strong> Ce pré-score constitue une première évaluation de votre entreprise. Il ne remplace pas l'analyse de vos états financiers et ne constitue pas une notation de crédit bancaire, une décision de crédit, une garantie de financement ni une promesse d'obtention de crédit.
           </div>
         </div>
 
         <!-- High Conversion CTA to Diagnostic 150k -->
         <div style="text-align: center; margin-top: 2rem; padding: 1.75rem; background: radial-gradient(circle at 50% 50%, rgba(23, 49, 81, 0.9) 0%, rgba(10, 20, 36, 0.95) 100%); border: 1px solid var(--border-gold); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
-          <span class="badge badge-gold" style="margin-bottom: 0.75rem;"><i class="fas fa-file-invoice-dollar"></i> PROCHAINE ÉTAPE RECOMMANDÉE</span>
           <h4 style="color: #ffffff; font-size: 1.35rem; margin-bottom: 0.5rem; font-family: var(--font-heading);">
-            Vous souhaitez connaître votre situation financière réelle et débloquer vos financements ?
+            Vous souhaitez connaître votre situation financière réelle ?
           </h4>
           <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; max-width: 680px; margin-left: auto; margin-right: auto; line-height: 1.6;">
             Le diagnostic <strong>Nexus PME 360</strong> analyse vos données financières et opérationnelles afin d'identifier vos forces, vos fragilités, vos principaux risques et vos priorités d'action.
           </p>
           <div style="margin-bottom: 1.25rem;">
-            <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">Livrables : Cartographie 7 Dimensions · Nexus Score Certifié · Plan 90 Jours</span>
+            <span style="font-size: 0.9rem; color: #ffffff; font-weight: 700; display: block; letter-spacing: 0.05em;">NEXUS PME 360</span>
             <span style="font-family: var(--font-heading); font-size: 1.75rem; font-weight: 800; color: var(--color-gold-light);">150 000 FCFA</span>
           </div>
           <a href="#contact" class="btn btn-gold btn-lg cta-order-diag-150k" id="btn-order-diag-150k" style="box-shadow: 0 6px 25px rgba(213, 187, 118, 0.35);">
